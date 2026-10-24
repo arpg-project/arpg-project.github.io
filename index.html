@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ARPG · Scaling Dexterous Manipulation via Action Representation Pretraining</title>
+  <meta name="description" content="ARPG separates action representation pretraining from task-conditioned generation to improve complex dexterous manipulation. Explore the method, DexJoCo results, real-world evaluations, and scaling studies.">
+  <meta name="theme-color" content="#f9f8f5">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content / 跳至正文</a>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="header"><div class="nav-wrap">
+    <a class="brand" href="#" aria-label="ARPG home"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M4 23 14 4l10 19M9 15h10M4 23h8l5-8"/></svg>ARPG<span>RESEARCH</span></a>
+    <nav aria-label="Main navigation"><a href="#method" data-i18n="navMethod">Method</a><a href="#benchmark" data-i18n="navResults">Results</a><a href="#real-world" data-i18n="navReal">Real world</a><a href="#scaling" data-i18n="navScaling">Scaling</a></nav>
+    <div class="nav-actions"><button id="language" aria-label="Switch language to Chinese">EN <span>/ 中文</span></button><a href="assets/arpg-paper.pdf" class="nav-paper" target="_blank" rel="noopener"><span data-i18n="paper">Paper</span> ↗</a></div>
+  </div></header>
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-copy"><div class="eyebrow"><span class="dot"></span><span data-i18n="heroEyebrow">ACTION REPRESENTATION PRETRAINING & GENERATION</span></div>
+      <h1><span data-i18n="heroLine1">Scaling Dexterous Manipulation</span><br><span data-i18n="heroLine2">via Action Representation</span><br><em data-i18n="heroLine3">Pretraining.</em></h1>
+      <p class="hero-sub" data-i18n="heroSub">Learn the action space first. Then learn to act.<br>Pretrain on human manipulation. Generate dexterous robot actions with a compact policy.</p>
+      <div class="hero-actions"><a class="button primary" href="assets/arpg-paper.pdf" target="_blank" rel="noopener"><span data-i18n="readPaper">Read the paper</span> ↗</a><a class="button secondary" href="#method"><span data-i18n="exploreMethod">Explore the method</span> ↓</a></div>
+      <div class="hero-meta" data-i18n="heroMeta">Yanjinghao Xu · Jiexin Zhang · Huan Zhao · Jianjia Mo<br>Zhenghao Yin · Dingkang Liang · Xiang Bai · Han ding<br><span class="affiliation">Huazhong University of Science and Technology · Preprint</span></div>
+      </div><div class="hero-media"><div class="hero-gallery">
+        <a class="hero-photo" href="#real-world"><img src="assets/hammer.webp" width="1600" height="1200" alt="Two dexterous robot hands performing a hammer handover" fetchpriority="high"><span><small>01 /</small> <span data-i18n="hammer">Hammer handover</span><b>↗</b></span></a>
+        <a class="hero-photo" href="#real-world"><img src="assets/coffee.webp" width="1494" height="1226" alt="Robot manipulating a cup to pour coffee beans"><span><small>02 /</small> <span data-i18n="coffee">Pouring coffee beans</span><b>↗</b></span></a>
+        <a class="hero-photo" href="#real-world"><img src="assets/cabinet.webp" width="1600" height="1200" alt="Robot retrieving an object from a cabinet"><span><small>03 /</small> <span data-i18n="cabinet">Cabinet retrieval</span><b>↗</b></span></a>
+      </div>
+      <div class="gallery-caption"><span data-i18n="galleryCaption">Real robots. Coordinated hands. Long-horizon manipulation.</span><span data-i18n="galleryNote">Experiment stills · Figure 3</span></div>
+      </div><div class="hero-stats"><div><span class="stat-label" data-i18n="stat1">DEXJOCO · MULTI-TASK OVERALL</span><strong>57.8<span>%</span></strong><small data-i18n="stat1Note">vs. 35.0% for π0.5 · 11 tasks</small></div><div><span class="stat-label" data-i18n="stat2">DEXJOCO · MULTI-TASK BIMANUAL</span><strong>44.7<span>%</span></strong><small data-i18n="stat2Note">vs. 10.1% for π0.5 · 5 tasks</small></div><div><span class="stat-label" data-i18n="stat3">DOWNSTREAM GENERATIVE BACKBONE</span><strong>130<span>M</span></strong><small data-i18n="stat3Note">0.46B total active inference parameters</small></div></div>
+    </section>
+
+
+    <aside class="reading-map wrap" aria-label="Research overview">
+      <div class="map-intro"><span class="tiny" data-i18n="mapLabel">THE PAPER IN THREE IDEAS</span><h2 data-i18n="mapTitle">A new place to scale.</h2></div>
+      <a href="#motivation"><span class="map-number">01 /</span><h3 data-i18n="map1Title">Separate the learning problems</h3><p data-i18n="map1Body">Scarce robot demonstrations should not have to teach both action structure and task behavior from scratch.</p><span class="map-link" data-i18n="map1Link">Why pretrain actions? ↗</span></a>
+      <a href="#method"><span class="map-number">02 /</span><h3 data-i18n="map2Title">Transfer structure from human motion</h3><p data-i18n="map2Body">Align human actions with video features, then use robot demonstrations to learn decoding and generation.</p><span class="map-link" data-i18n="map2Link">How does it work? ↗</span></a>
+      <a href="#benchmark"><span class="map-number">03 /</span><h3 data-i18n="map3Title">Test the downstream benefit</h3><p data-i18n="map3Body">Better bimanual success with a 130M generator; broader behavior coverage is a promising scaling direction.</p><span class="map-link" data-i18n="map3Link">What is the evidence? ↗</span></a>
+    </aside>
+
+    <section id="motivation" class="chapter wrap">
+      <div class="section-label">01 <span data-i18n="motivationLabel">THE MOTIVATION</span></div>
+      <div class="split"><div><h2 data-i18n="motivationTitle">A better action space.<br>A different way to scale.</h2><p data-i18n="motivationBody">Vision and language benefit from large-scale pretraining. Complex robot actions still depend on scarce demonstrations to learn both how actions are represented and how to generate them.</p><p data-i18n="motivationBody2">ARPG separates these two problems. It learns a reusable action representation from human manipulation data, then trains a compact policy to generate actions in that fixed space.</p></div><div class="concept"><div class="concept-line"><span class="tiny" data-i18n="conventional">CONVENTIONAL APPROACH</span><div class="concept-box" data-i18n="robotDemos">Limited robot demonstrations</div><span class="flow-down">↓</span><div class="concept-box muted" data-i18n="jointLearning">Representation + generation<br>learned together</div></div><div class="concept-line proposed"><span class="tiny">ARPG</span><div class="concept-box lavender" data-i18n="humanData">Human manipulation data</div><span class="flow-down">↓</span><div class="concept-box lavender" data-i18n="pretrainedSpace">Pretrained action space</div><span class="flow-down">↓</span><div class="concept-box blue" data-i18n="compactPolicy">Compact robot policy</div></div></div></div>
+      <div class="takeaway"><span>↳</span><p data-i18n="motivationTakeaway">Scale the representation independently of robot demonstration data and generative model size.</p></div>
+    </section>
+
+    <section id="method" class="method-section"><div class="wrap chapter">
+      <div class="section-label">02 <span data-i18n="methodLabel">THE METHOD</span></div>
+      <div class="section-heading"><h2 data-i18n="methodTitle">From human motion<br>to robot action.</h2><p data-i18n="methodIntro">First build an action space that preserves motion and is easy to model. Then learn to generate in it. The three steps below separate representation learning, robot adaptation, and policy training.</p></div>
+      <div class="method-bridge"><div><span class="tiny" data-i18n="bridgeLabel">THE HUMAN → ROBOT CONNECTION</span><h3 data-i18n="bridgeTitle">One interface. Different hands.</h3></div><p data-i18n="bridgeBody">Human and robot trajectories share a 324-dimensional bimanual format: 162 values per hand describing joints, palm orientation, wrist position, and hand keypoints. A validity mask handles missing dimensions. The robot-specific decoder turns the learned representation into executable controls.</p></div>
+      <div class="stage-tabs" role="tablist" aria-label="Training stages"><button id="stage-tab-0" role="tab" aria-controls="stage-panel" aria-selected="true" data-stage="0"><small>STAGE 1a</small><span data-i18n="stage0">Representation pretraining</span></button><button id="stage-tab-1" role="tab" aria-controls="stage-panel" aria-selected="false" tabindex="-1" data-stage="1"><small>STAGE 1b</small><span data-i18n="stage1">Robot action decoding</span></button><button id="stage-tab-2" role="tab" aria-controls="stage-panel" aria-selected="false" tabindex="-1" data-stage="2"><small>STAGE 2</small><span data-i18n="stage2">Conditional generation</span></button></div>
+      <div id="stage-panel" class="stage-panel" role="tabpanel" aria-labelledby="stage-tab-0"></div>
+      <figure class="method-figure" aria-labelledby="method-figure-caption">
+        <div class="method-figure-toolbar"><span class="tiny" data-i18n="figureLabel">ARPG FRAMEWORK · FIGURE 2</span><div><button type="button" data-zoom="assets/method.svg" data-alt="Original ARPG framework, Figure 2" data-i18n="enlargeFigure">Enlarge figure ↗</button><a href="assets/arpg-framework.pdf" target="_blank" rel="noopener" data-i18n="figurePdf">Figure PDF ↗</a></div></div>
+        <div class="method-figure-scroll" tabindex="0" role="region" aria-label="Original ARPG architecture diagram, horizontally scrollable on small screens">
+          <div class="method-figure-canvas"><img src="assets/method.svg" width="803" height="397" alt="Original ARPG framework. Stage 1a aligns a trainable action encoder with frozen V-JEPA 2.1 on human data. Stage 1b trains an action decoder. Stage 2 trains DiT to generate in the frozen action space, conditioned on vision and robot state.">
+            <button class="method-region region-0" data-figure-stage="0" aria-label="Explore Stage 1a: action representation pretraining" aria-controls="stage-panel"></button>
+            <button class="method-region region-1" data-figure-stage="1" aria-label="Explore Stage 1b: robot action decoding" aria-controls="stage-panel"></button>
+            <button class="method-region region-2" data-figure-stage="2" aria-label="Explore Stage 2: conditional action generation" aria-controls="stage-panel"></button>
+          </div>
+        </div>
+        <div class="method-figure-bottom"><figcaption id="method-figure-caption" class="caption" data-i18n="methodCaption">Figure 2. Original ARPG framework. Stage 1 learns a structured, decodable action space; Stage 2 learns conditional generation in that frozen space. The action encoder constructs training targets and is not used at inference.</figcaption><span class="figure-scroll-hint" data-i18n="figureScrollHint">Swipe to explore the diagram ↔</span></div>
+      </figure>
+      <div class="inference-strip"><div><span class="tiny" data-i18n="inferenceLabel">AT INFERENCE</span><h3 data-i18n="inferenceTitle">What actually runs on the robot?</h3></div><ol class="inference-flow"><li data-i18n="infer1">Visual observations<br>+ robot state</li><li data-i18n="infer2">130M DiT<br>generates action representations</li><li data-i18n="infer3">Frozen decoder<br>outputs an action chunk</li></ol><p data-i18n="inferenceNote">Generation starts from Gaussian noise. Neither the action encoder nor the V-JEPA video reference runs at inference. The complete active policy has 0.46B parameters; 130M refers only to its generative backbone.</p></div>
+
+
+    </div></section>
+
+    <section id="benchmark" class="chapter wrap">
+      <div class="section-label">03 <span data-i18n="benchmarkLabel">DEXJOCO BENCHMARK</span></div>
+      <div class="section-heading"><h2 data-i18n="benchmarkTitle">Stronger coordination.<br>Smaller deployment footprint.</h2><p data-i18n="benchmarkIntro">11 dexterous manipulation tasks: six single-arm and five bimanual. Success rates are macro-averaged using the benchmark’s task definitions and success criteria.</p></div>
+      <div class="result-callout"><strong>+34.6<span data-i18n="pp">percentage points</span></strong><p data-i18n="resultMeaning">Bimanual success rises from 10.1% to 44.7% under multi-task training. This is the clearest gain in the benchmark: coordinating two hands across multiple tasks.</p></div>
+      <div class="chart-toolbar"><div class="segmented" role="group" aria-label="Training setting"><button data-regime="multi" aria-pressed="true" data-i18n="multi">Multi-task training</button><button data-regime="single" aria-pressed="false" data-i18n="single">Single-task training</button></div><span class="tiny" data-i18n="successRate">SUCCESS RATE (%) ↑</span></div>
+      <div id="benchmark-chart" class="benchmark-chart"></div><p id="benchmark-caption" class="caption"></p>
+      <div class="efficiency"><div><span data-i18n="vram">Peak inference VRAM</span><strong>2.63 <small>GB</small></strong><p data-i18n="vramNote">π0.5: 9.05 GB</p></div><div><span data-i18n="latency">Inference latency</span><strong>50.8 <small>ms</small></strong><p data-i18n="latencyNote">π0.5: 84.9 ms</p></div><div><span data-i18n="activeParams">Active inference parameters</span><strong>0.46 <small>B</small></strong><p data-i18n="paramsNote">π0.5: 3.35B · Backbone: 130M</p></div></div>
+      <details class="data-details"><summary data-i18n="fullTable">Explore the full comparison · Table 1</summary><div class="table-scroll"><table><caption data-i18n="tableCaption">DexJoCo performance and inference costs · Table 1</caption><thead><tr><th data-i18n="setting">Setting</th><th data-i18n="method">Method</th><th>Params (B)</th><th>VRAM (GB)</th><th>Latency (ms)</th><th data-i18n="singleArm">Single-arm (%)</th><th data-i18n="bimanual">Bimanual (%)</th><th data-i18n="overall">Overall (%)</th></tr></thead><tbody id="results-table"></tbody></table></div></details>
+      <p class="caption" data-i18n="benchmarkSource">Source: Table 1. Baseline benchmark results are reported by DexJoCo. Inference costs follow the measurement configuration in the paper; they are not hardware-independent guarantees.</p>
+    </section>
+
+    <section id="real-world" class="real-section"><div class="wrap chapter">
+      <div class="section-label">04 <span data-i18n="realLabel">BEYOND SIMULATION</span></div><div class="section-heading"><h2 data-i18n="realTitle">Dexterity in the real world.</h2><p data-i18n="realIntro">Three long-horizon tasks, each with three ordered stages. ARPG and π0.5 use the same robot demonstrations, initial-state distributions, and success criteria. Each method is evaluated for 30 trials per task.</p></div>
+      <div id="real-cards" class="real-cards"></div><p class="caption" data-i18n="realCaption">Figure 3 · Full-task success, 30 trials per method per task. Images show experiment stills, not video playback.</p>
+      <div class="takeaway"><span>↳</span><p data-i18n="realTakeaway">ARPG improves success on all three evaluated tasks. The largest gain is +33.3 percentage points on pouring coffee beans.</p></div>
+    </div></section>
+
+    <section id="scaling" class="chapter wrap">
+      <div class="section-label">05 <span data-i18n="scalingLabel">SCALING PRETRAINING</span></div><div class="section-heading"><h2 data-i18n="scalingTitle">Scale the behaviors.<br>Not only the hours.</h2><p data-i18n="scalingIntro">Can a better pretrained action space improve manipulation without more robot demonstrations or a larger generative backbone? We vary three pretraining dimensions separately.</p></div>
+      <div class="scaling-layout"><div><div class="segmented scaling-tabs" role="group" aria-label="Pretraining dimension"><button data-scale="data" aria-pressed="true" data-i18n="data">Data</button><button data-scale="capacity" aria-pressed="false" data-i18n="capacity">Encoder</button><button data-scale="compute" aria-pressed="false" data-i18n="compute">Compute</button></div><div id="scaling-chart"></div></div><div class="scaling-insight" id="scaling-insight"></div></div>
+      <p class="caption" data-i18n="scalingCaption">Figure 4 · Downstream DexJoCo overall success. Data settings are nested subsets. Lines connect evaluated configurations, not a fitted scaling law. Other configurations are held fixed within each comparison.</p>
+      <div class="research-note"><span data-i18n="researchNote">A RESEARCH FINDING, WITH A LIMIT</span><p data-i18n="scalingCaveat">Data volume and behavioral coverage both change from 10 to 500 hours, so their causal contributions cannot be isolated. The 3,000-hour expansion concentrates on already represented task categories. Larger encoders and longer pretraining also yield no consistent additional gains.</p></div>
+    </section>
+
+    <section id="ablations" class="chapter wrap ablations">
+      <div class="section-label">06 <span data-i18n="ablationLabel">ABLATIONS & ANALYSIS</span></div><div class="section-heading"><h2 data-i18n="ablationTitle">The action space matters.</h2><p data-i18n="ablationIntro">With robot demonstrations, observations, and the downstream generator fixed, visual alignment produces the strongest representation for generation among the evaluated objectives.</p></div>
+      <div class="ablation-layout"><div><h3 data-i18n="representation">Action representation</h3><div id="ablation-chart"></div><p class="caption" data-i18n="ablationCaption">Table 2(a) · DexJoCo overall success (%)</p></div><div class="small-tables"><div><h3 data-i18n="aggregation">Multi-layer aggregation</h3><table><thead><tr><th data-i18n="layers">Final encoder layers</th><th data-i18n="success">Success (%)</th></tr></thead><tbody><tr><td>1</td><td>52.5</td></tr><tr class="best"><td>2</td><td>57.8</td></tr><tr><td>3</td><td>51.6</td></tr></tbody></table></div><div><h3 data-i18n="auxiliary">Auxiliary generation objectives</h3><table><thead><tr><th data-i18n="objective">Objective</th><th data-i18n="success">Success (%)</th></tr></thead><tbody><tr><td data-i18n="withoutRepa">Without REPA alignment</td><td>54.85</td></tr><tr><td data-i18n="withoutDecoder">Without action decoding loss</td><td>56.0</td></tr><tr class="best"><td data-i18n="fullObjective">Full objective</td><td>57.8</td></tr></tbody></table></div></div></div>
+    </section>
+
+    <section id="outlook" class="outlook"><div class="wrap chapter"><div class="section-label">07 <span data-i18n="outlookLabel">LIMITATIONS & OUTLOOK</span></div><div class="split"><h2 data-i18n="outlookTitle">An independent axis<br>for robot learning.</h2><div><p data-i18n="outlookBody">Action representation pretraining offers a reusable component for complex dexterous control, with improvements demonstrated in simulation and on three physical manipulation tasks.</p><p data-i18n="outlookLimits">The current study focuses on dexterous hands. Transfer to other embodiments, semantic understanding, and open-world generalization remain to be evaluated systematically. Scaling results apply to the tested data pool and model configurations.</p><p class="outlook-question" data-i18n="outlookQuestion">What makes an action representation useful for generation—not just better aligned?</p></div></div></div></section>
+
+    <section id="resources" class="chapter wrap resources"><div class="section-label">08 <span data-i18n="resourcesLabel">RESOURCES</span></div><div class="section-heading"><h2 data-i18n="resourcesTitle">Explore the research.</h2><p data-i18n="resourcesIntro">Read the manuscript for complete methods, implementation details, evaluation protocols, and additional analyses.</p></div><div class="resource-row"><a href="assets/arpg-paper.pdf" target="_blank" rel="noopener"><span>01</span><strong data-i18n="paperDownload">Paper PDF · English</strong><b>↗</b></a><div><span>02</span><strong data-i18n="code">Code</strong><small data-i18n="forthcoming">Public repository link not yet provided</small></div><div><span>03</span><strong>BibTeX</strong><small data-i18n="citationPending">Awaiting arXiv identifier</small></div></div><p class="paper-language"><a href="assets/arpg-paper-zh.pdf" target="_blank" rel="noopener">中文论文 PDF ↗</a></p><details><summary data-i18n="abstract">Read the abstract</summary><p id="abstract-text"></p></details><p class="caption" data-i18n="resourceNote">Based on the arxiv-paper preprint in this project. The PDF includes author information; an arXiv identifier and code link have not yet been supplied.</p></section>
+  </main>
+  <footer class="wrap"><a class="brand" href="#">ARPG<span>REPRESENTATION → GENERATION</span></a><a href="#" data-i18n="backTop">Back to top ↑</a></footer>
+  <dialog id="image-dialog"><button id="close-dialog" aria-label="Close image / 关闭图片">×</button><img id="dialog-image" alt=""></dialog>
+  <noscript><p class="wrap">Enable JavaScript to use language switching and interactive experiment charts. <a href="assets/arpg-paper.pdf">Read the complete paper (PDF).</a></p></noscript>
+</body>
+</html>
