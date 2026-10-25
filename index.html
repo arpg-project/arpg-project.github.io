@@ -6,8 +6,9 @@
   <meta name="description" content="ARPG separates action representation pretraining from task-conditioned generation to improve complex dexterous manipulation. Explore the method, DexJoCo results, real-world evaluations, and scaling studies.">
   <meta name="theme-color" content="#f9f8f5">
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="style.css?v=videos-1">
+  <script src="app.js?v=videos-1" defer></script>
+  <script src="manifold.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content / 跳至正文</a>
@@ -47,6 +48,20 @@
       <div class="takeaway"><span>↳</span><p data-i18n="motivationTakeaway">Scale the representation independently of robot demonstration data and generative model size.</p></div>
     </section>
 
+    <section id="action-space" class="wrap space-explainer" aria-labelledby="space-title">
+      <div class="section-label" data-space="eyebrow">VISUAL INTUITION · 32 SECONDS</div>
+      <div class="section-heading"><h2 id="space-title" data-space="title">Change the space.<br>Change the learning problem.</h2><p data-space="intro">The same actions can be easier to model in a learned representation. Watch the data change coordinates before the generator learns their structure.</p></div>
+      <div class="space-player">
+        <div class="space-top"><span data-space="badge">A GEOMETRIC ANALOGY</span><span id="space-time">00 / 32 s</span></div>
+        <div class="space-panels"><div><h3 data-space="raw">Direct action generation</h3><p data-space="rawSub">Model the original action coordinates</p><canvas id="space-raw" role="img" aria-label="Raw action samples and an illustrative learned surface"></canvas></div><div><h3 data-space="latent">Generation in a learned representation</h3><p id="space-right-sub">Action samples → pretrained encoder → representations</p><canvas id="space-latent" role="img" aria-label="The corresponding samples reorganized by an encoder, and an illustrative learned surface"></canvas></div></div>
+        <div class="space-legend"><span data-space="legendPoints">● Points: corresponding action samples</span><span data-space="legendSurface">▧ Mesh: structure approximated by the generator</span></div>
+        <div class="space-caption"><span id="space-step">01 / 04</span><div><h3 id="space-caption-title"></h3><p id="space-caption-body"></p></div></div>
+        <div class="space-controls"><button id="space-play" type="button">Play</button><button id="space-replay" type="button">Replay</button><input id="space-scrub" type="range" min="0" max="32" step="0.05" value="0" aria-label="Animation timeline"><span data-space="duration">32 s</span></div>
+        <div class="space-chapters" role="group" aria-label="Animation chapters"><button data-space-chapter="0"></button><button data-space-chapter="1"></button><button data-space-chapter="2"></button><button data-space-chapter="3"></button></div>
+      </div>
+      <div class="space-evidence"><div><span class="tiny" data-space="evidenceLabel">CHECK THE EXPERIMENT</span><p data-space="evidence">Raw Action <strong>13.3%</strong> → Visual Alignment <strong>57.8%</strong></p><a href="#ablations" data-space="evidenceLink">DexJoCo overall success · Table 2(a) ↗</a></div><p data-space="caveat">Conceptual animation, not a projection of measured embeddings or a training simulation. A useful representation need not be lower-dimensional or flat. Its benefit depends on the pretraining objective, motion information retained, and decoder quality; the ablation does not establish manifold flattening as the cause.</p></div>
+    </section>
+
     <section id="method" class="method-section"><div class="wrap chapter">
       <div class="section-label">02 <span data-i18n="methodLabel">THE METHOD</span></div>
       <div class="section-heading"><h2 data-i18n="methodTitle">From human motion<br>to robot action.</h2><p data-i18n="methodIntro">First build an action space that preserves motion and is easy to model. Then learn to generate in it. The three steps below separate representation learning, robot adaptation, and policy training.</p></div>
@@ -82,7 +97,7 @@
 
     <section id="real-world" class="real-section"><div class="wrap chapter">
       <div class="section-label">04 <span data-i18n="realLabel">BEYOND SIMULATION</span></div><div class="section-heading"><h2 data-i18n="realTitle">Dexterity in the real world.</h2><p data-i18n="realIntro">Three long-horizon tasks, each with three ordered stages. ARPG and π0.5 use the same robot demonstrations, initial-state distributions, and success criteria. Each method is evaluated for 30 trials per task.</p></div>
-      <div id="real-cards" class="real-cards"></div><p class="caption" data-i18n="realCaption">Figure 3 · Full-task success, 30 trials per method per task. Images show experiment stills, not video playback.</p>
+      <div id="real-cards" class="real-cards"></div><p class="caption" data-i18n="realCaption">Figure 3 · Full-task success, 30 trials per method per task. Videos show edited task demonstrations; success rates summarize all evaluation trials.</p>
       <div class="takeaway"><span>↳</span><p data-i18n="realTakeaway">ARPG improves success on all three evaluated tasks. The largest gain is +33.3 percentage points on pouring coffee beans.</p></div>
     </div></section>
 
