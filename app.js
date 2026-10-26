@@ -6,6 +6,37 @@ const copy = {
 };
 Object.assign(copy.zh, {"heroSub": "先学习动作空间，再学习如何行动。<br>在人类操作数据上预训练，用轻量级策略生成机器人灵巧动作。", "heroMeta": "Yanjinghao Xu · Jiexin Zhang · Huan Zhao · Jianjia Mo<br>Zhenghao Yin · Dingkang Liang · Xiang Bai · Han ding<br><span class=\"affiliation\">华中科技大学 · 预印本</span>", "methodTitle": "从人类动作，<br>到机器人行动。", "methodIntro": "先建立保留运动信息、适合生成建模的动作空间，再学习在其中生成。下面三个步骤分别解决表征学习、机器人适配与策略训练。", "scalingTitle": "扩展行为覆盖，<br>不只是累计时长。", "resourceNote": "本页依据项目中的 arxiv-paper 预印本。PDF 已包含作者信息；arXiv 编号与公开代码链接尚未提供。", "forthcoming": "公开仓库链接尚未提供", "citationPending": "待补充 arXiv 编号", "mapLabel": "用三个问题读懂论文", "mapTitle": "新的扩展方向。", "map1Title": "为什么解耦学习？", "map1Body": "有限的机器人示范需要同时学习动作结构与任务行为，这是复杂动作生成面临的瓶颈。", "map1Link": "理解研究动机 ↗", "map2Title": "人类动作如何帮助机器人？", "map2Body": "将人类动作与视频特征对齐，再用机器人示范学习动作解码与条件生成。", "map2Link": "理解方法框架 ↗", "map3Title": "实验究竟验证了什么？", "map3Body": "130M 生成主干取得更高的双手操作成功率；更广的行为覆盖提供了值得探索的扩展方向。", "map3Link": "查看实验证据 ↗", "bridgeLabel": "连接人类与机器人的关键", "bridgeTitle": "不同的手，同一套接口。", "bridgeBody": "人类与机器人的轨迹统一为 324 维双手动作格式：每只手 162 维，包含关节旋转、手掌旋转、手腕位置和手部关键点。有效性掩码处理缺失维度，再由目标机器人的解码器将表征还原为可执行控制。", "inferenceLabel": "实际部署时", "inferenceTitle": "机器人执行时运行哪些模块？", "infer1": "视觉观测<br>＋机器人状态", "infer2": "130M DiT<br>生成动作表征", "infer3": "冻结的解码器<br>输出未来动作块", "inferenceNote": "生成从高斯噪声开始。动作编码器与 V-JEPA 视频参考模型均不参与推理。完整策略的活跃参数量为 0.46B；130M 仅指其中的生成主干。", "pp": "个百分点", "resultMeaning": "多任务训练下，双手操作成功率从 10.1% 提升至 44.7%。这是基准中最突出的提升：在多个任务之间学习复杂的双手协同。"});
 document.querySelectorAll('[data-i18n]').forEach(el => { copy.en[el.dataset.i18n] = el.innerHTML; });
+copy.en.codeSoon='Coming soon';
+copy.zh.codeSoon='即将公开';
+copy.en.heroTitle='Scaling Dexterous Manipulation<br>via Action Representation Pretraining';
+copy.zh.heroTitle='通过动作表征预训练<br>扩展灵巧操作能力';
+
+Object.assign(copy.en, {
+ demoTitle:'Dexterity, in motion.', demoIntro:'Three tasks. Coordinated hands. Watch ARPG in the real world.',
+ realLabel:'ON THE ROBOT', taskLabel:'Task', realEvidenceTitle:'Real-world evaluation · three tasks', auxiliaryDetails:'Additional ablations',
+ methodLabel:'HOW IT WORKS', methodTitle:'Learn the action representation space.<br>Then learn to generate representations.', methodIntro:'Pretrain an action representation, adapt its decoder, and learn a compact generative policy.',
+ benchmarkLabel:'THE EVIDENCE', benchmarkTitle:'Stronger coordination.<br>Measured in success.', benchmarkIntro:'Evaluated on 11 dexterous tasks: six single-arm and five bimanual.',
+ resultMeaning:'Multi-task bimanual success: 10.1% → 44.7%.',
+ scalingLabel:'SCALING', scalingTitle:'Broader experience.<br>Better actions.', scalingIntro:'Vary data, encoder capacity, and training compute. Keep the downstream policy fixed.',
+ ablationLabel:'WHY REPRESENTATIONS MATTER', ablationTitle:'The space makes a difference.',
+ ablationIntro:'The strongest representation among the evaluated objectives comes from visual alignment. Robot data, observations, and generator are held fixed.',
+ inferenceTitle:'Inference: from observation to action.', infer1:'Vision + robot state',infer2:'Generate representations',infer3:'Decode an action chunk',
+ outlookLabel:'WHAT COMES NEXT', resourcesLabel:'THE PAPER',
+});
+Object.assign(copy.zh, {
+ navIntuition:'直观理解', demoTitle:'让动作，自己说话。', demoIntro:'三项真实任务，展现灵巧操作与协同。',
+ realLabel:'真实机器人', taskLabel:'任务', realEvidenceTitle:'真机评估 · 三项任务', auxiliaryDetails:'更多消融实验',
+ methodLabel:'方法', methodTitle:'先学习动作表征空间，<br>再学习如何生成动作表征。', methodIntro:'预训练动作表征，适配机器人解码器，再学习轻量级生成策略。',
+ benchmarkLabel:'实验证据', benchmarkTitle:'更强的协同，<br>用成功率验证。', benchmarkIntro:'在 11 项灵巧操作任务上评估：6 项单臂，5 项双手。',
+ resultMeaning:'多任务双手操作成功率：10.1% → 44.7%。',
+ scalingLabel:'扩展能力', scalingTitle:'更丰富的经验，<br>更好的动作。', scalingIntro:'分别改变数据、编码器规模与训练计算量，保持下游策略配置固定。',
+ ablationLabel:'为什么表征重要', ablationTitle:'动作空间，决定学习的起点。',
+ ablationIntro:'保持机器人数据、观测和生成模型固定，视觉对齐在所评估的目标中表现最好。',
+ inferenceTitle:'推理：从观测到动作。',infer1:'视觉 + 机器人状态',infer2:'生成动作表征',infer3:'解码为动作块',
+ outlookLabel:'下一步', resourcesLabel:'论文',
+});
+copy.en.methodScroll='Scroll to explore · or select a stage';
+copy.zh.methodScroll='向下滚动，逐步了解 · 也可点击阶段切换';
 let lang='en',stage=0,regime='multi',scale='data';
 try { if(localStorage.getItem('arpg-language')==='zh') lang='zh'; } catch {}
 const t=(en,zh)=>lang==='zh'?zh:en;
@@ -19,7 +50,9 @@ function renderStage(){
   const s=stages[stage],i=lang==='en'?0:1;
   document.querySelectorAll('[data-stage]').forEach(b=>{const selected=+b.dataset.stage===stage;b.setAttribute('aria-selected',selected);b.tabIndex=selected?0:-1;});
   const panel=document.getElementById('stage-panel');panel.setAttribute('aria-labelledby',`stage-tab-${stage}`);
-  panel.innerHTML=`<div class="stage-description"><div><span class="tiny">${['STAGE 1a','STAGE 1b','STAGE 2'][stage]}</span><h3>${s.title[i]}</h3><div class="stage-location">${[t('Left · Vision–action alignment','原图左侧 · 视觉—动作对齐'),t('Lower left · Noise-augmented decoding','原图左下 · 噪声增强动作解码'),t('Right · Generation in the pretrained action space','原图右侧 · 预训练动作空间中的生成')][stage]}</div></div><div><p>${s.body[i]}</p><div class="stage-status">${s.status[i]}</div></div></div>`;
+  const short=[t('Learn action representations through visual–action contrastive learning.','通过视觉–动作对比学习，学习动作表征。'),t('Adapt a decoder to the target robot.','适配目标机器人的动作解码器。'),t('Generate in the frozen action representation space.','在冻结的动作表征空间做生成。')];
+  panel.innerHTML=`<div class="stage-summary"><h3>${short[stage]}</h3><details class="stage-more"><summary>${t('Training details','训练细节')}</summary><p>${s.body[i]}</p><p class="stage-status">${s.status[i]}</p></details></div>`;
+
   document.querySelectorAll('[data-figure-stage]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.figureStage===stage));
 
 }
@@ -35,7 +68,30 @@ const tasks=[
  {key:'coffee',en:'Pouring coffee beans',zh:'倾倒咖啡豆',a:53.3,b:20.0,n:16,bn:6,description:['Coordinated object manipulation for pouring; the largest observed gain across the three tasks.','通过协调的物体操作完成倾倒，在三项任务中取得最大成功率提升。']},
  {key:'cabinet',en:'Cabinet retrieval',zh:'柜体取物',a:40.0,b:16.7,n:12,bn:5,description:['A sequential retrieval task that evaluates dexterous manipulation in a physical cabinet setting.','在真实柜体环境中完成连续取物流程，评估灵巧操作能力。']}
 ];
-function renderReal(){document.getElementById('real-cards').innerHTML=tasks.map((r,k)=>`<article class="real-card"><video controls playsinline preload="none" poster="assets/${r.key}.webp" aria-label="${lang==='en'?r.en:r.zh} · ${t('experiment video','实验视频')}"><source src="assets/videos/${r.key}.mp4" type="video/mp4">${t('Your browser does not support embedded video.','你的浏览器不支持内嵌视频。')}</video><a class="video-link" href="assets/videos/${r.key}.mp4" target="_blank" rel="noopener">${t('Open video','打开视频')} ↗</a><h3><span class="tiny">0${k+1} / </span>${lang==='en'?r.en:r.zh}</h3><p class="description">${r.description[lang==='en'?0:1]}</p><div class="real-metric"><div><small>ARPG · ${r.n}/30</small><strong>${r.a.toFixed(1)}%</strong></div><div><small>π0.5 · ${r.bn}/30</small><span>${r.b.toFixed(1)}%</span></div></div></article>`).join('');}
+let selectedTask=0;
+function renderReal(){
+  const r=tasks[selectedTask],title=lang==='en'?r.en:r.zh;
+  document.getElementById('real-cards').innerHTML=`
+    <div class="demo-player"><video id="demo-video" controls playsinline preload="none" poster="assets/videos/${r.key}-poster.jpg?v=hd1080-1" aria-label="${title}"><source src="assets/videos/${r.key}.mp4?v=hd1080-1" type="video/mp4">${t('Your browser does not support video.','你的浏览器不支持视频。')}</video></div>
+    <div class="demo-taskbar" role="group" aria-label="${t('Choose a demonstration','选择任务演示')}">${tasks.map((item,k)=>`<button type="button" data-task="${k}" aria-pressed="${selectedTask===k}"><span class="task-index">0${k+1}</span>${lang==='en'?item.en:item.zh}</button>`).join('')}</div>
+    <div class="demo-caption"><p>${[
+      t('A coordinated handover, from one hand to the other.','从一只手到另一只手，完成协调交接。'),
+      t('Grasp, position, and pour coffee beans.','抓取、调整位置，再完成咖啡豆倾倒。'),
+      t('Open the cabinet and retrieve the object.','打开柜体，取出目标物体。')
+    ][selectedTask]}</p><a href="assets/videos/${r.key}.mp4?v=hd1080-1" target="_blank" rel="noopener">${t('Open video','打开视频')} ↗</a></div>
+    <p class="demo-note">${t('Edited task demonstrations.','任务演示剪辑。')} <button id="evaluation-toggle" type="button" aria-controls="real-evaluation" aria-expanded="${!document.getElementById('real-evaluation').hidden}">${document.getElementById('real-evaluation').hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span></button></p>`;
+  document.getElementById('real-results').innerHTML=tasks.map(item=>`<tr><td>${lang==='en'?item.en:item.zh}</td><td><strong>${item.a.toFixed(1)}%</strong> (${item.n}/30)</td><td>${item.b.toFixed(1)}% (${item.bn}/30)</td></tr>`).join('');
+}
+document.getElementById('real-cards').addEventListener('click',e=>{
+  const toggle=e.target.closest('#evaluation-toggle');
+  if(toggle){
+    const panel=document.getElementById('real-evaluation');panel.hidden=!panel.hidden;
+    toggle.setAttribute('aria-expanded',String(!panel.hidden));
+    toggle.innerHTML=`${panel.hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span>`;
+    return;
+  }
+  const button=e.target.closest('[data-task]');if(!button||+button.dataset.task===selectedTask)return;document.getElementById('demo-video').pause();selectedTask=+button.dataset.task;renderReal();document.querySelector(`[data-task="${selectedTask}"]`).focus({preventScroll:true});});
+
 const scaling={
  data:{x:['10','100','500','3,000'],y:[40.9,44.4,57.8,55.5],std:[2.2,.7,.4,.9],label:['Human pretraining data (hours)','人类操作预训练数据（小时）'],eyebrow:['10 → 500 HOURS','10 → 500 小时'],title:['40.9% → 57.8%','40.9% → 57.8%'],body:['Expanding nested human-data subsets improves downstream performance up to 500 hours. At 3,000 hours, success is 55.5%: more duration alone does not sustain the gains.','扩展人类操作嵌套子集，在 500 小时前持续改善下游性能。3,000 小时的成功率为 55.5%，单纯增加时长并未延续收益。'],note:['Robot-only reference: 42.7% from 8.8 hours of in-domain robot data. Whiskers show reported standard deviations.','仅机器人数据参考：8.8 小时域内机器人数据达到 42.7%。误差线表示所报告的标准差。']},
  capacity:{x:['22','40','90'],y:[57.8,57.5,55.5],label:['Action encoder parameters (M)','动作编码器参数量（M）'],eyebrow:['22M → 90M PARAMETERS','22M → 90M 参数'],title:['Capacity ≠ generation quality.','容量不等于生成质量。'],body:['Increasing action encoder size does not consistently improve downstream manipulation. A larger encoder does not automatically create a space better suited to action generation.','增大动作编码器并未持续改善下游操作。更大的编码器不一定能构建更适合动作生成的表征空间。'],note:['Encoder capacity is distinct from the fixed 130M downstream generative backbone.','此处为动作编码器规模，与保持固定的 130M 下游生成主干不同。']},
@@ -51,12 +107,13 @@ function renderScaling(){
 }
 function renderAblation(){const rows=[['Raw Action','原始动作',13.3],['Action-MAE','Action-MAE',36.4],['Action-iBOT','Action-iBOT',30.5],['Visual Alignment + iBOT','视觉对齐 + iBOT',45.6],['Visual Alignment (ARPG)','视觉对齐（ARPG）',57.8]];document.getElementById('ablation-chart').innerHTML=rows.map((r,k)=>`<div class="ablation-bar ${k===4?'best-bar':''}"><div><span>${r[lang==='en'?0:1]}</span><strong>${r[2].toFixed(1)}%</strong></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${r[2]}%"></div></div></div>`).join('');}
 const abstracts={en:'Large-scale vision, language, and video pretraining has substantially improved the perception and generalization capabilities of robotic manipulation models, but action generation for complex dexterous manipulation remains constrained by the scarcity of robot demonstrations. Limited robot demonstrations must be used to learn both action representations and task-conditioned action distributions, making it difficult to train action representations sufficiently and, in turn, limiting the ability of downstream generative models to generate complex dexterous actions. To address this limitation, we propose ARPG (Action Representation Pretraining and Generation), which explicitly separates action representation learning from action generation: we first pretrain an action representation encoder on large-scale human manipulation data. We then freeze the encoder and train a compact generative backbone (130M parameters) to learn task-conditioned action distributions in the encoder’s representation space. Experimental results show that ARPG achieves state-of-the-art performance on the DexJoCo benchmark and improves the average success rate on bimanual dexterous manipulation from 10.1% for π0.5 to 44.7%. In a nested data-scaling experiment, downstream performance improves as human-manipulation pretraining data increase from 10 to 500 hours. These results indicate that action representation pretraining provides an independent scaling dimension for improving complex dexterous manipulation.',zh:'大规模视觉、语言与视频预训练显著提升了机器人操作模型的感知与泛化能力，但复杂灵巧操作的动作生成仍受限于机器人示范的稀缺性。有限的机器人示范需要同时用于学习动作表征和任务条件动作分布，使动作表征难以得到充分训练，进而限制下游生成模型生成复杂灵巧动作的能力。为解决这一问题，我们提出 ARPG（动作表征预训练与生成），显式地将动作表征学习与动作生成分离：首先在大规模人类操作数据上预训练动作表征编码器，再冻结编码器，训练轻量级生成主干（130M 参数），在编码器的表征空间中学习任务条件动作分布。实验结果表明，ARPG 在 DexJoCo 基准上取得最先进的性能，将双手灵巧操作平均成功率从 π0.5 的 10.1% 提升至 44.7%。在嵌套数据扩展实验中，人类操作预训练数据从 10 小时增加到 500 小时时，下游性能随之提升。这些结果表明，动作表征预训练为改善复杂灵巧操作提供了独立的扩展维度。'};
-function render(){document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=copy[lang][el.dataset.i18n]??copy.en[el.dataset.i18n];});document.getElementById('language').innerHTML=lang==='en'?'EN <span>/ 中文</span>':'中文 <span>/ EN</span>';document.getElementById('language').setAttribute('aria-label',t('Switch language to Chinese','切换为英文'));document.getElementById('abstract-text').textContent=abstracts[lang];renderStage();renderBenchmark();renderReal();renderScaling();renderAblation();}
+function render(){document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=copy[lang][el.dataset.i18n]??copy.en[el.dataset.i18n];});document.getElementById('language').innerHTML=lang==='en'?'EN <span>/ 中文</span>':'中文 <span>/ EN</span>';document.getElementById('language').setAttribute('aria-label',t('Switch language to Chinese','切换为英文'));document.getElementById('abstract-text').textContent=abstracts[lang];renderStage();renderBenchmark();renderReal();renderScaling();renderAblation();document.dispatchEvent(new Event('arpg:render'));}
 document.getElementById('language').addEventListener('click',()=>{lang=lang==='en'?'zh':'en';try{localStorage.setItem('arpg-language',lang);}catch{}render();});
-function focusFigureStage(value){
+function focusFigureStage(value,fromScroll=false){
   stage=value;renderStage();
   const figure=document.querySelector('.method-figure'),scroller=document.querySelector('.method-figure-scroll'),region=document.querySelector(`[data-figure-stage="${stage}"]`);
   figure.dataset.focus=String(stage);
+  if(!fromScroll) document.dispatchEvent(new CustomEvent('arpg:stage',{detail:stage}));
   if(scroller.scrollWidth>scroller.clientWidth){scroller.scrollTo({left:region.offsetLeft-(scroller.clientWidth-region.offsetWidth)/2,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}
 }
 document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>focusFigureStage(+b.dataset.stage)));
