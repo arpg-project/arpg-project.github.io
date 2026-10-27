@@ -51,7 +51,7 @@ function renderStage(){
   document.querySelectorAll('[data-stage]').forEach(b=>{const selected=+b.dataset.stage===stage;b.setAttribute('aria-selected',selected);b.tabIndex=selected?0:-1;});
   const panel=document.getElementById('stage-panel');panel.setAttribute('aria-labelledby',`stage-tab-${stage}`);
   const short=[t('Learn action representations through visual–action contrastive learning.','通过视觉–动作对比学习，学习动作表征。'),t('Adapt a decoder to the target robot.','适配目标机器人的动作解码器。'),t('Generate in the frozen action representation space.','在冻结的动作表征空间做生成。')];
-  panel.innerHTML=`<div class="stage-summary"><h3>${short[stage]}</h3><details class="stage-more"><summary>${t('Training details','训练细节')}</summary><p>${s.body[i]}</p><p class="stage-status">${s.status[i]}</p></details></div>`;
+  window.arpgControls.html(panel, `<div class="stage-summary"><h3>${short[stage]}</h3><details class="stage-more"><summary>${t('Training details','训练细节')}</summary><p>${s.body[i]}</p><p class="stage-status">${s.status[i]}</p></details></div>`);
 
   document.querySelectorAll('[data-figure-stage]').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.figureStage===stage));
 
@@ -93,6 +93,7 @@ function prepareDemo(video){
 function renderReal(){
   const r=tasks[selectedTask],title=lang==='en'?r.en:r.zh;
   const existing=demoPlayers.get(r.key);
+  const previousBar=document.querySelector('.demo-taskbar');
   const previous=document.getElementById('demo-video');
   const continuePlaying=previous&&!previous.paused;
   // Keep the media element outside the translated markup to preserve buffering.
@@ -106,6 +107,13 @@ function renderReal(){
       t('Open the cabinet and retrieve the object.','打开柜体，取出目标物体。')
     ][selectedTask]}</p><a href="assets/videos/${r.key}.mp4?v=annotated1080-2" target="_blank" rel="noopener">${t('Open full-quality video','打开高清原视频')} ↗</a></div>
     <p class="demo-note">${t('Edited demonstrations · 2× speed.','任务演示剪辑 · 2 倍速。')} <button id="evaluation-toggle" type="button" aria-controls="real-evaluation" aria-expanded="${!document.getElementById('real-evaluation').hidden}">${document.getElementById('real-evaluation').hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span></button></p>`;
+  if(previousBar){
+    const newBar=document.querySelector('.demo-taskbar');
+    previousBar.setAttribute('aria-label',newBar.getAttribute('aria-label'));
+    [...previousBar.children].forEach((button,i)=>{button.innerHTML=newBar.children[i].innerHTML;button.setAttribute('aria-pressed',String(i===selectedTask));});
+    newBar.replaceWith(previousBar);
+  }
+  window.arpgControls.setup();
   const placeholder=document.getElementById('demo-video');
   if(existing){placeholder.replaceWith(existing.video);existing.video.setAttribute('aria-label',title);if(continuePlaying)existing.video.play().catch(()=>{});}
   else prepareDemo(placeholder);
@@ -119,7 +127,7 @@ document.getElementById('real-cards').addEventListener('click',e=>{
     toggle.innerHTML=`${panel.hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span>`;
     return;
   }
-  const button=e.target.closest('[data-task]');if(!button||+button.dataset.task===selectedTask)return;document.getElementById('demo-video').pause();selectedTask=+button.dataset.task;renderReal();if(!navigator.connection?.saveData&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.getElementById('demo-video').play().catch(()=>{});document.querySelector(`[data-task="${selectedTask}"]`).focus({preventScroll:true});});
+  const button=e.target.closest('[data-task]');if(!button||+button.dataset.task===selectedTask)return;document.getElementById('demo-video').pause();selectedTask=+button.dataset.task;document.querySelectorAll('[data-task]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.task===selectedTask)));window.arpgControls.transition('demo',['.demo-player','.demo-caption'],()=>{renderReal();if(!navigator.connection?.saveData&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.getElementById('demo-video').play().catch(()=>{});});});
 
 const scaling={
  data:{x:['10','100','500','3,000'],y:[40.9,44.4,57.8,55.5],std:[2.2,.7,.4,.9],label:['Human pretraining data (hours)','人类操作预训练数据（小时）'],eyebrow:['10 → 500 HOURS','10 → 500 小时'],title:['40.9% → 57.8%','40.9% → 57.8%'],body:['Expanding nested human-data subsets improves downstream performance up to 500 hours. From 500 to 3,000 hours, increasing data volume without adding task categories does not improve performance (57.8% → 55.5%).','扩展人类操作嵌套子集，在 500 小时前持续改善下游性能。从 500 到 3,000 小时，仅增加数据量而不增加任务种类，性能未获提升（57.8% → 55.5%）。'],note:['Robot-only reference: 42.7% from 8.8 hours of in-domain robot data. Whiskers on the other points show reported standard deviations; the 10-hour whisker is omitted.','仅机器人数据参考：8.8 小时域内机器人数据达到 42.7%。其余点的误差线表示所报告的标准差；10 小时点未显示误差线。']},
@@ -152,8 +160,8 @@ function focusFigureStage(value,fromScroll=false){
 document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>focusFigureStage(+b.dataset.stage)));
 document.querySelectorAll('[data-figure-stage]').forEach(b=>b.addEventListener('click',()=>focusFigureStage(+b.dataset.figureStage)));
 document.querySelector('.stage-tabs').addEventListener('keydown',e=>{if(!['ArrowRight','ArrowLeft','Home','End'].includes(e.key))return;e.preventDefault();stage=e.key==='Home'?0:e.key==='End'?2:(stage+(e.key==='ArrowRight'?1:2))%3;focusFigureStage(stage);document.querySelector(`[data-stage="${stage}"]`).focus();});
-document.querySelectorAll('[data-regime]').forEach(b=>b.addEventListener('click',()=>{regime=b.dataset.regime;renderBenchmark();}));
-document.querySelectorAll('[data-scale]').forEach(b=>b.addEventListener('click',()=>{scale=b.dataset.scale;renderScaling();}));
+document.querySelectorAll('[data-regime]').forEach(b=>b.addEventListener('click',()=>{if(regime===b.dataset.regime)return;regime=b.dataset.regime;document.querySelectorAll('[data-regime]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.regime===regime)));window.arpgControls.transition('benchmark',['#benchmark-chart','#benchmark-caption'],renderBenchmark);}));
+document.querySelectorAll('[data-scale]').forEach(b=>b.addEventListener('click',()=>{if(scale===b.dataset.scale)return;scale=b.dataset.scale;document.querySelectorAll('[data-scale]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.scale===scale)));window.arpgControls.transition('scaling',['#scaling-chart','#scaling-insight'],renderScaling);}));
 const dialog=document.getElementById('image-dialog');document.addEventListener('click',e=>{const b=e.target.closest('[data-zoom]');if(!b)return;dialog.classList.toggle('method-lightbox',b.dataset.zoom==='assets/method.svg');document.getElementById('dialog-image').src=b.dataset.zoom;document.getElementById('dialog-image').alt=b.dataset.alt;dialog.showModal();});document.getElementById('close-dialog').addEventListener('click',()=>dialog.close());dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
 let ticking=false;function updateProgress(){const height=document.documentElement.scrollHeight-innerHeight;document.querySelector('.reading-progress').style.width=`${height>0?scrollY/height*100:0}%`;ticking=false;}addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(updateProgress);ticking=true;}},{passive:true});
 if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){document.querySelectorAll('.header nav a').forEach(a=>a.classList.toggle('active',a.hash===`#${entry.target.id}`));}}},{rootMargin:'-15% 0px -65% 0px'});document.querySelectorAll('main section[id]').forEach(s=>observer.observe(s));}

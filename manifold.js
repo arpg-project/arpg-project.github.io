@@ -130,7 +130,7 @@
   }
   function update(){
     const chapter=time<5?0:time<11?1:time<18?2:3;
-    if(chapter!==lastChapter){lastChapter=chapter;$('space-caption-title').textContent=text.titles[chapter];root.querySelector('.space-switch').style.setProperty('--step',chapter);root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.setAttribute('aria-pressed',i===chapter));}
+    if(chapter!==lastChapter){const initial=lastChapter<0;lastChapter=chapter;const caption=text.titles[chapter];if(initial)$('space-caption-title').textContent=caption;else window.arpgControls.transition('space-caption',['#space-caption-title'],()=>{$('space-caption-title').textContent=caption;});root.querySelector('.space-switch').style.setProperty('--step',chapter);root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.setAttribute('aria-pressed',i===chapter));}
     const label=playing?text.pause:time>=duration?text.replay:text.play;
     const button=$('space-play');if(button.getAttribute('aria-label')!==label){button.setAttribute('aria-label',label);button.title=label;button.innerHTML=playing?pauseIcon:time>=duration?replayIcon:playIcon;}
     $('space-time').textContent=`00:${String(Math.floor(time)).padStart(2,'0')} / 00:26`;
