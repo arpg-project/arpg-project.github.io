@@ -70,69 +70,6 @@
       const ball=c.createRadialGradient(x-r*.3,y-r*1.4,.4,x,y-r,r);ball.addColorStop(0,'#fff');ball.addColorStop(.45,'#d8cce9');ball.addColorStop(1,'#75618d');c.beginPath();c.arc(x,y-r,r,0,Math.PI*2);c.fillStyle=ball;c.fill();
     }
   }
-  function drawStory(chapter){
-    const canvas=$('space-story'),w=canvas.clientWidth,h=canvas.clientHeight;
-    if(!w||!h)return;
-    const dpr=Math.min(devicePixelRatio||1,2);
-    if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
-    const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-    // Shared normalized coordinates keep all three scenes legible on a phone.
-    const scale=Math.min(w/700,h/170);c.translate((w-700*scale)/2,0);c.scale(scale,scale);
-    const zh=language==='zh',ink='#615175',muted='#93899f';
-    const word=(en,cn)=>zh?cn:en;
-    function label(s,x,y,size=16,color=muted){
-      if(w<600)size=Math.max(size,21);
-      c.fillStyle=color;c.font=`${size}px system-ui, sans-serif`;c.textAlign='center';
-      const units=zh?[...s]:s.split(' '),lines=[];let row='';
-      units.forEach(unit=>{const next=row+(row&&!zh?' ':'')+unit;if(row&&c.measureText(next).width>205){lines.push(row);row=unit;}else row=next;});
-      lines.push(row);lines.forEach((v,i)=>c.fillText(v,x,y+i*(size+3)));
-    }
-    function line(points,color=ink,width=2){c.beginPath();points.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';c.lineJoin='round';c.stroke();}
-    function arrow(x1,x2,y,progress=1){line([[x1,y],[lerp(x1,x2,progress),y]],'#c7bdD3',1.5);if(progress>.98)line([[x2-6,y-4],[x2,y],[x2-6,y+4]],'#c7bdd3',1.5);}
-    function dot(x,y,r=8){const g=c.createRadialGradient(x-3,y-4,1,x,y,r);g.addColorStop(0,'#d0c3e7');g.addColorStop(1,'#796397');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
-    function box(x,title){c.fillStyle='#f0edf5';c.strokeStyle='#d9d0e5';c.lineWidth=1;c.beginPath();c.roundRect(x-60,49,120,44,12);c.fill();c.stroke();label(title,x,77,17,ink);}
-    // Illustrative reach → grasp → lift, not a measured robot pose sequence.
-    function pose(x,y,p,alpha=1){
-      c.save();c.globalAlpha=alpha;c.translate(x,y);
-      const lift=ease((p-.45)/.55)*25,close=ease(p/.45),gap=lerp(18,9,close);
-      line([[-28,45],[30,45]],'#ddd6e4',1);
-      c.fillStyle='#b4a1cd';c.beginPath();c.roundRect(-7,25-lift,14,15,3);c.fill();
-      line([[0,-8-lift],[0,5-lift],[-gap,5-lift],[-gap,30-lift],[-gap+5,30-lift]],ink,2.5);
-      line([[0,5-lift],[gap,5-lift],[gap,30-lift],[gap-5,30-lift]],ink,2.5);
-      c.restore();
-    }
-    const local=clamp((time-starts[chapter])/([11,7,8][chapter]));
-    if(chapter===0){
-      // Both halves use the identical reach → grasp → lift frames throughout.
-      // The left sequence sits above raw actions; the right sequence enters the encoder.
-      const progress=ease((time-1)/8);
-      [0,.48,1].forEach((p,i)=>{
-        const emphasis=.45+.55*(.5+.5*Math.cos(time*1.8-i*2.1));
-        pose(72+i*91,48,p,emphasis);
-        c.save();c.translate(405+i*39,66);c.scale(.45,.45);pose(0,0,p,emphasis);c.restore();
-      });
-      label(word('Three-frame action chunk','三帧动作片段'),168,139,16);
-      line([[350,23],[350,150]],'#e3dfe9',1);
-      arrow(502,530,72);
-      c.fillStyle='#f0edf5';c.strokeStyle='#d9d0e5';c.beginPath();c.roundRect(532,53,82,38,10);c.fill();c.stroke();label(word('Encoder','编码器'),573,77,15,ink);
-      arrow(616,650,72);
-      dot(672,72,9);
-      if(progress>0 && progress<1)dot(lerp(503,672,progress),72,4);
-      label(word('Same chunk → representation','同一片段 → 动作表征'),535,139,16);
-    }else if(chapter===1){
-      for(let i=0;i<12;i++)dot(100+22*Math.sin(i*5),72+22*Math.cos(i*7),2.5);
-      label(word('Noise','噪声'),100,132);arrow(145,285,72);box(350,word('Generator','生成模型'));arrow(415,545,72);
-      label(word('Vision + robot state','视觉观测 + 机器人状态'),350,20,13);
-      line([[350,27],[350,43]],'#c7bdd3',1.5);
-      dot(lerp(450,590,ease(local)),72,9);label(word('Generated representation','生成的动作表征'),590,132);
-    }else{
-      dot(90,72,9);label(word('Generated representation','生成的动作表征'),100,132);
-      arrow(135,245,72);box(310,word('Decoder','动作解码器'));arrow(375,445,72,ease(local*3));
-      [0,.48,1].forEach((p,i)=>pose(485+i*75,49,p,.2+.8*ease(local*3-i*.3)));
-      label(word('Decoded action chunk','解码动作（示意）'),560,132);
-    }
-    canvas.setAttribute('aria-label',text.titles[chapter]);
-  }
   function update(){
     const chapter=time<11?0:time<18?1:2;
     if(chapter!==lastChapter){const initial=lastChapter<0;lastChapter=chapter;const caption=text.titles[chapter];if(initial)$('space-caption-title').textContent=caption;else window.arpgControls.transition('space-caption',['#space-caption-title'],()=>{$('space-caption-title').textContent=caption;});root.querySelector('.space-switch').style.setProperty('--step',chapter);root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.setAttribute('aria-pressed',i===chapter));}
@@ -140,7 +77,6 @@
     const button=$('space-play');if(button.getAttribute('aria-label')!==label){button.setAttribute('aria-label',label);button.title=label;button.innerHTML=playing?pauseIcon:time>=duration?replayIcon:playIcon;}
     $('space-time').textContent=`00:${String(Math.floor(time)).padStart(2,'0')} / 00:26`;
     $('space-scrub').value=time;root.querySelector('.space-rail').style.setProperty('--progress',`${time/duration*100}%`);
-    drawStory(chapter);
     draw($('space-raw'),false);draw($('space-latent'),true);
   }
   function translate(){language=document.documentElement.lang.startsWith('zh')?'zh':'en';text=strings[language];root.querySelectorAll('[data-space]').forEach(el=>{el.innerHTML=text[el.dataset.space]||'';});root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.textContent=text.chapters[i]);$('space-scrub').setAttribute('aria-label',text.timeline);lastChapter=-1;if(scrollDriven)root.querySelector('.space-footnote').textContent=language==='zh'?'向下滚动，逐步观看 · 也可点击阶段或拖动进度':'Scroll to explore · or select a chapter and scrub';update();}

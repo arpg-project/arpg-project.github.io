@@ -16,10 +16,10 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=abstract-below-1">
+  <link rel="stylesheet" href="editorial.css?v=white-method-1">
   <script src="controls.js?v=motivation-refine-1" defer></script>
-  <script src="app.js?v=motivation-refine-1" defer></script>
-  <script src="manifold.js?v=motivation-refine-1" defer></script>
+  <script src="app.js?v=white-method-1" defer></script>
+  <script src="manifold.js?v=white-method-1" defer></script>
   <script src="motion.js?v=motivation-refine-1" defer></script>
 </head>
 <body>
@@ -53,7 +53,6 @@
         <div class="space-switch" role="group" aria-label="Animation chapters"><span class="space-switch-thumb" aria-hidden="true"></span><button type="button" data-space-chapter="0"></button><button type="button" data-space-chapter="1"></button><button type="button" data-space-chapter="2"></button></div>
         <div class="space-player">
           <p id="space-caption-title" class="space-statement" aria-live="polite"></p>
-          <canvas id="space-story" role="img" aria-label="Conceptual action sequence, encoder, representation and decoder"></canvas>
           <div class="surface-pair">
             <div class="surface-view"><div class="surface-label"><span class="surface-dot raw-dot"></span><h3 data-space="raw">Raw action space</h3></div><canvas id="space-raw" role="img" aria-label="Raw action samples and an illustrative learned surface"></canvas></div>
             <div class="surface-view"><div class="surface-label"><span class="surface-dot"></span><h3 data-space="latent">Learned action space</h3></div><canvas id="space-latent" role="img" aria-label="The same samples reorganized by an encoder"></canvas></div>
@@ -87,7 +86,7 @@
         <div class="method-figure-bottom"><figcaption id="method-figure-caption" class="caption" data-i18n="methodCaption">Figure 2. Original ARPG framework. Stage 1 learns a structured, decodable action space; Stage 2 learns conditional generation in that frozen space. The action encoder constructs training targets and is not used at inference.</figcaption><span class="figure-scroll-hint" data-i18n="figureScrollHint">Swipe to explore the diagram ↔</span></div>
       </figure>
       </div></div>
-      <div class="inference-strip"><div><span class="tiny" data-i18n="inferenceLabel">AT INFERENCE</span><h3 data-i18n="inferenceTitle">Inference: from observation to action.</h3></div><ol class="inference-flow"><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="22" rx="4"/><path d="m9 24 7-7 6 5 5-8 4 10M16 34h8"/></svg><span>01</span></div><strong data-i18n="infer1"></strong></li><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 11h28M6 20h28M6 29h28"/><circle cx="13" cy="11" r="3"/><circle cx="27" cy="20" r="3"/><circle cx="18" cy="29" r="3"/></svg><span>02</span></div><strong data-i18n="infer2"></strong></li><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 31h30M11 28V17l13-9 8 7M24 8l-6-4M32 15l-4 8m4-8 5 5"/></svg><span>03</span></div><strong data-i18n="infer3"></strong></li></ol><p data-i18n="inferenceNote">Generation starts from Gaussian noise. Neither the action encoder nor the V-JEPA video reference runs at inference. The complete active policy has 0.46B parameters; 130M refers only to its generative backbone.</p></div>
+      <div class="inference-strip"><p data-i18n="inferenceNote">Generation starts from Gaussian noise. The action encoder is not used at inference.</p></div>
 
 
     </div></section>
