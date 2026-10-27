@@ -69,17 +69,46 @@ const tasks=[
  {key:'cabinet',en:'Cabinet retrieval',zh:'柜体取物',a:40.0,b:16.7,n:12,bn:5,description:['A sequential retrieval task that evaluates dexterous manipulation in a physical cabinet setting.','在真实柜体环境中完成连续取物流程，评估灵巧操作能力。']}
 ];
 let selectedTask=0;
+const demoPlayers=new Map();
+function prepareDemo(video){
+  const conserve=navigator.connection?.saveData;
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  video.muted=true;
+  video.preload=conserve?'metadata':'auto';
+  let resume=true, entered=false;
+  const observer=new IntersectionObserver(entries=>{
+    const visible=entries[0].isIntersecting;
+    if(visible){
+      if(resume&&!conserve&&!reduced) video.play().catch(()=>{});
+      entered=true;
+    }else if(entered){
+      resume=!video.paused;
+      video.pause();
+    }
+  },{threshold:.25});
+  observer.observe(video);
+  demoPlayers.set(video.dataset.taskKey,{video,observer});
+}
+
 function renderReal(){
   const r=tasks[selectedTask],title=lang==='en'?r.en:r.zh;
+  const existing=demoPlayers.get(r.key);
+  const previous=document.getElementById('demo-video');
+  const continuePlaying=previous&&!previous.paused;
+  // Keep the media element outside the translated markup to preserve buffering.
+  if(existing && previous===existing.video) existing.video.remove();
   document.getElementById('real-cards').innerHTML=`
-    <div class="demo-player"><video id="demo-video" controls playsinline preload="none" poster="assets/videos/${r.key}-poster.jpg?v=hd1080-1" aria-label="${title}"><source src="assets/videos/${r.key}.mp4?v=hd1080-1" type="video/mp4">${t('Your browser does not support video.','你的浏览器不支持视频。')}</video></div>
+    <div class="demo-player"><video id="demo-video" data-task-key="${r.key}" controls muted loop playsinline preload="auto" poster="assets/videos/${r.key}-poster.jpg?v=annotated1080-2" aria-label="${title}"><source src="assets/videos/${r.key}-web.mp4?v=fast1080-1" type="video/mp4">${t('Your browser does not support video.','你的浏览器不支持视频。')}</video></div>
     <div class="demo-taskbar" role="group" aria-label="${t('Choose a demonstration','选择任务演示')}">${tasks.map((item,k)=>`<button type="button" data-task="${k}" aria-pressed="${selectedTask===k}"><span class="task-index">0${k+1}</span>${lang==='en'?item.en:item.zh}</button>`).join('')}</div>
     <div class="demo-caption"><p>${[
       t('A coordinated handover, from one hand to the other.','从一只手到另一只手，完成协调交接。'),
       t('Grasp, position, and pour coffee beans.','抓取、调整位置，再完成咖啡豆倾倒。'),
       t('Open the cabinet and retrieve the object.','打开柜体，取出目标物体。')
-    ][selectedTask]}</p><a href="assets/videos/${r.key}.mp4?v=hd1080-1" target="_blank" rel="noopener">${t('Open video','打开视频')} ↗</a></div>
-    <p class="demo-note">${t('Edited task demonstrations.','任务演示剪辑。')} <button id="evaluation-toggle" type="button" aria-controls="real-evaluation" aria-expanded="${!document.getElementById('real-evaluation').hidden}">${document.getElementById('real-evaluation').hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span></button></p>`;
+    ][selectedTask]}</p><a href="assets/videos/${r.key}.mp4?v=annotated1080-2" target="_blank" rel="noopener">${t('Open full-quality video','打开高清原视频')} ↗</a></div>
+    <p class="demo-note">${t('Edited demonstrations · 2× speed.','任务演示剪辑 · 2 倍速。')} <button id="evaluation-toggle" type="button" aria-controls="real-evaluation" aria-expanded="${!document.getElementById('real-evaluation').hidden}">${document.getElementById('real-evaluation').hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span></button></p>`;
+  const placeholder=document.getElementById('demo-video');
+  if(existing){placeholder.replaceWith(existing.video);existing.video.setAttribute('aria-label',title);if(continuePlaying)existing.video.play().catch(()=>{});}
+  else prepareDemo(placeholder);
   document.getElementById('real-results').innerHTML=tasks.map(item=>`<tr><td>${lang==='en'?item.en:item.zh}</td><td><strong>${item.a.toFixed(1)}%</strong> (${item.n}/30)</td><td>${item.b.toFixed(1)}% (${item.bn}/30)</td></tr>`).join('');
 }
 document.getElementById('real-cards').addEventListener('click',e=>{
@@ -90,7 +119,7 @@ document.getElementById('real-cards').addEventListener('click',e=>{
     toggle.innerHTML=`${panel.hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span>`;
     return;
   }
-  const button=e.target.closest('[data-task]');if(!button||+button.dataset.task===selectedTask)return;document.getElementById('demo-video').pause();selectedTask=+button.dataset.task;renderReal();document.querySelector(`[data-task="${selectedTask}"]`).focus({preventScroll:true});});
+  const button=e.target.closest('[data-task]');if(!button||+button.dataset.task===selectedTask)return;document.getElementById('demo-video').pause();selectedTask=+button.dataset.task;renderReal();if(!navigator.connection?.saveData&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.getElementById('demo-video').play().catch(()=>{});document.querySelector(`[data-task="${selectedTask}"]`).focus({preventScroll:true});});
 
 const scaling={
  data:{x:['10','100','500','3,000'],y:[40.9,44.4,57.8,55.5],std:[2.2,.7,.4,.9],label:['Human pretraining data (hours)','人类操作预训练数据（小时）'],eyebrow:['10 → 500 HOURS','10 → 500 小时'],title:['40.9% → 57.8%','40.9% → 57.8%'],body:['Expanding nested human-data subsets improves downstream performance up to 500 hours. At 3,000 hours, success is 55.5%: more duration alone does not sustain the gains.','扩展人类操作嵌套子集，在 500 小时前持续改善下游性能。3,000 小时的成功率为 55.5%，单纯增加时长并未延续收益。'],note:['Robot-only reference: 42.7% from 8.8 hours of in-domain robot data. Whiskers show reported standard deviations.','仅机器人数据参考：8.8 小时域内机器人数据达到 42.7%。误差线表示所报告的标准差。']},
@@ -107,7 +136,9 @@ function renderScaling(){
 }
 function renderAblation(){const rows=[['Raw Action','原始动作',13.3],['Action-MAE','Action-MAE',36.4],['Action-iBOT','Action-iBOT',30.5],['Visual Alignment + iBOT','视觉对齐 + iBOT',45.6],['Visual Alignment (ARPG)','视觉对齐（ARPG）',57.8]];document.getElementById('ablation-chart').innerHTML=rows.map((r,k)=>`<div class="ablation-bar ${k===4?'best-bar':''}"><div><span>${r[lang==='en'?0:1]}</span><strong>${r[2].toFixed(1)}%</strong></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${r[2]}%"></div></div></div>`).join('');}
 const abstracts={en:'Large-scale vision, language, and video pretraining has substantially improved the perception and generalization capabilities of robotic manipulation models, but action generation for complex dexterous manipulation remains constrained by the scarcity of robot demonstrations. Limited robot demonstrations must be used to learn both action representations and task-conditioned action distributions, making it difficult to train action representations sufficiently and, in turn, limiting the ability of downstream generative models to generate complex dexterous actions. To address this limitation, we propose ARPG (Action Representation Pretraining and Generation), which explicitly separates action representation learning from action generation: we first pretrain an action representation encoder on large-scale human manipulation data. We then freeze the encoder and train a compact generative backbone (130M parameters) to learn task-conditioned action distributions in the encoder’s representation space. Experimental results show that ARPG achieves state-of-the-art performance on the DexJoCo benchmark and improves the average success rate on bimanual dexterous manipulation from 10.1% for π0.5 to 44.7%. In a nested data-scaling experiment, downstream performance improves as human-manipulation pretraining data increase from 10 to 500 hours. These results indicate that action representation pretraining provides an independent scaling dimension for improving complex dexterous manipulation.',zh:'大规模视觉、语言与视频预训练显著提升了机器人操作模型的感知与泛化能力，但复杂灵巧操作的动作生成仍受限于机器人示范的稀缺性。有限的机器人示范需要同时用于学习动作表征和任务条件动作分布，使动作表征难以得到充分训练，进而限制下游生成模型生成复杂灵巧动作的能力。为解决这一问题，我们提出 ARPG（动作表征预训练与生成），显式地将动作表征学习与动作生成分离：首先在大规模人类操作数据上预训练动作表征编码器，再冻结编码器，训练轻量级生成主干（130M 参数），在编码器的表征空间中学习任务条件动作分布。实验结果表明，ARPG 在 DexJoCo 基准上取得最先进的性能，将双手灵巧操作平均成功率从 π0.5 的 10.1% 提升至 44.7%。在嵌套数据扩展实验中，人类操作预训练数据从 10 小时增加到 500 小时时，下游性能随之提升。这些结果表明，动作表征预训练为改善复杂灵巧操作提供了独立的扩展维度。'};
-function render(){document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=copy[lang][el.dataset.i18n]??copy.en[el.dataset.i18n];});document.getElementById('language').innerHTML=lang==='en'?'EN <span>/ 中文</span>':'中文 <span>/ EN</span>';document.getElementById('language').setAttribute('aria-label',t('Switch language to Chinese','切换为英文'));document.getElementById('abstract-text').textContent=abstracts[lang];renderStage();renderBenchmark();renderReal();renderScaling();renderAblation();document.dispatchEvent(new Event('arpg:render'));}
+Object.assign(copy.en, {paperDownload:'Paper · arXiv',resourceNote:'Preprint: arXiv:2610.34453. The public code repository will be added when available.'});
+Object.assign(copy.zh, {paperDownload:'论文 · arXiv',resourceNote:'预印本：arXiv:2610.34453。代码仓库链接将在公开后补充。'});
+function render(){document.dispatchEvent(new Event('arpg:before-render'));document.documentElement.lang=lang==='en'?'en':'zh-CN';document.querySelectorAll('[data-i18n]').forEach(el=>{el.innerHTML=copy[lang][el.dataset.i18n]??copy.en[el.dataset.i18n];});document.getElementById('language').innerHTML=lang==='en'?'EN <span>/ 中文</span>':'中文 <span>/ EN</span>';document.getElementById('language').setAttribute('aria-label',t('Switch language to Chinese','切换为英文'));document.getElementById('abstract-text').textContent=abstracts[lang];renderStage();renderBenchmark();renderReal();renderScaling();renderAblation();document.dispatchEvent(new Event('arpg:render'));}
 document.getElementById('language').addEventListener('click',()=>{lang=lang==='en'?'zh':'en';try{localStorage.setItem('arpg-language',lang);}catch{}render();});
 function focusFigureStage(value,fromScroll=false){
   stage=value;renderStage();

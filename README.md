@@ -8,10 +8,10 @@ Static website; publish the main branch root using GitHub Pages.
 
 ## Action-space explainer
 
-`manifold.js` adds a 20-second, bilingual Canvas animation at `#action-space`,
+`manifold.js` adds a 26-second, bilingual Canvas animation at `#action-space`,
 inside the Motivation section, between the robot demonstrations and Method. It has play/pause, replay, chapter navigation,
 and a keyboard-accessible timeline. The animation plays once on first entering the viewport and suspends
-when offscreen or when the document is hidden. The three-segment switch seeks
+when offscreen or when the document is hidden. The four-segment switch seeks
 and plays each stage; the round transport button pauses or replays it.
 Reduced-motion users receive static stage views without autoplay.
 
@@ -31,13 +31,11 @@ The large demonstration player switches between `assets/videos/hammer.mp4`, `cof
 in the supplied edited-video folder. Web copies use H.264/AAC, 1920×1080,
 60 fps, and MP4 fast-start metadata. Source edits, timing, and playback speed
 are preserved; original source files are untouched. The three copies total
-approximately 50.6 MiB. Video is encoded from the original 1080p edits with
+approximately 50.3 MiB. Video is encoded from the original 1080p edits with
 x264 CRF 17 / slow; source audio is copied without re-encoding. Native controls, inline mobile playback, matching 1080p 16:9 frame
 posters, and `preload="none"` keep playback user initiated.
 
-Animation pacing: 4 seconds to establish the samples, 7 seconds for encoding,
-and 9 seconds for fitting and a final synchronized moving-ball comparison. One short caption per
-scene; method details and scientific caveats are available in a disclosure.
+Animation pacing: 0–5 s maps an illustrative action chunk to one point; 5–11 s encodes it; 11–18 s shows observation-conditioned generation; 18–26 s decodes a generated representation into an illustrative action chunk. The final 23–26 s retains the synchronized moving-ball comparison. These are conceptual gripper motions, not measured trajectories. One short caption per scene; scientific caveats remain in a disclosure.
 
 ## Page presentation
 
@@ -52,3 +50,26 @@ until the repository URL is provided.
 The animation studio uses a light neutral stage, softly shaded lavender meshes,
 corresponding samples, a sliding stage selector, and a minimal transport rail.
 The final three seconds retain a synchronized sphere and path on each surface.
+
+## Video annotations
+
+The web copies include a top-right `2x speed` label and short English stage labels
+at top left, also visible in fullscreen and when the MP4 is opened directly.
+The source edits already run at 2× speed; no additional speed change is applied.
+Stage boundaries are editorial descriptions of the visible demonstration, not
+measurements of the evaluation protocol:
+
+- Hammer: grasp 0–8 s, handover 8–28 s, placement 28 s to end.
+- Coffee: grasp the cup 0–6 s, align both hands 6–14 s, pour 14 s to end.
+- Cabinet: open drawer 0–5 s, retrieve object 5–13 s, close drawer 13 s to end.
+
+Regenerate from the original edited clips, never from an already annotated web copy.
+The source files remain unmodified.
+
+### Scroll narrative
+
+`motion.js` derives method and action-space progress from current DOM geometry on native scroll events. Language switches preserve the active scene’s normalized progress and remeasure after translation. Heading entrances use an independent IntersectionObserver. On viewports at least 760 × 700, the animation follows native scrolling with reversible progress; chapter buttons and the timeline seek the same scroll position. Smaller viewports retain the standard player. Reduced-motion preferences disable pinned scroll scenes and entrances. No wheel events are intercepted. Previously downloaded GSAP files are retained in `assets/vendor/` but are no longer loaded.
+
+### Web video playback
+
+The inline player uses `*-web.mp4`: 1080p, 30 fps, H.264 CRF 23, 3 Mbps max rate, 1-second keyframes, no audio and faststart metadata. The original annotated 1080p/60 files remain available through the full-quality link. Active videos preload automatically and play muted when visible; Save-Data and reduced-motion users keep manual playback. Media elements are cached across task and language switches. Local playback checks do not establish production cold-cache network timings.
