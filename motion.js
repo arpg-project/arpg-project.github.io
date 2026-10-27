@@ -13,7 +13,7 @@
   // hide a heading that the reader has already seen.
   let entranceObserver;
   function entrances() {
-    const headings = document.querySelectorAll('.section-intro');
+    const headings = document.querySelectorAll('.section-intro, .learning-route, .research-takeaway');
     document.querySelectorAll('.text-reveal').forEach(el => el.classList.add('is-visible'));
     if (reduce.matches || !('IntersectionObserver' in window)) {
       entranceObserver?.disconnect();

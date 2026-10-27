@@ -16,11 +16,11 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=story-pair-2">
-  <script src="controls.js?v=story-pair-2" defer></script>
-  <script src="app.js?v=story-pair-2" defer></script>
-  <script src="manifold.js?v=story-pair-2" defer></script>
-  <script src="motion.js?v=language-scroll-fix-2" defer></script>
+  <link rel="stylesheet" href="editorial.css?v=research-intro-1">
+  <script src="controls.js?v=research-intro-1" defer></script>
+  <script src="app.js?v=research-intro-1" defer></script>
+  <script src="manifold.js?v=research-intro-1" defer></script>
+  <script src="motion.js?v=research-intro-1" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content / 跳至正文</a>
@@ -45,6 +45,31 @@
         <p data-i18n="realIntro">Each method is evaluated over 30 trials per task on the physical robot.</p><div class="table-scroll"><table><caption data-i18n="realCaption">Figure 3 · Full-task success. Videos are edited demonstrations; rates summarize all evaluation trials.</caption><thead><tr><th data-i18n="taskLabel">Task</th><th>ARPG</th><th>π0.5</th></tr></thead><tbody id="real-results"></tbody></table></div>
         <p data-i18n="realTakeaway">ARPG improves success on all three evaluated tasks, with the largest gain on pouring coffee beans: 33.3 percentage points.</p>
             </div>
+    </section>
+    <section id="research-motivation" class="chapter wrap research-motivation" aria-labelledby="research-title">
+      <div class="section-intro">
+        <div class="section-label" data-i18n="researchLabel">RESEARCH MOTIVATION</div>
+        <div class="section-heading"><h2 id="research-title" data-i18n="researchTitle">Limited robot demonstrations.<br>Two learning problems.</h2><p data-i18n="researchIntro">Learning how actions are represented, and how to generate them for a task.</p></div>
+      </div>
+      <div class="learning-routes">
+        <article class="learning-route route-direct" aria-labelledby="direct-title">
+          <div class="route-heading"><span class="route-kicker" data-i18n="directLabel">DIRECT LEARNING</span><h3 id="direct-title" data-i18n="directTitle">Learn both from robot data.</h3></div>
+          <div class="route-source"><svg viewBox="0 0 100 52" aria-hidden="true"><path d="M18 46h64M35 44V31l20-17 20 12M55 14l-9-7M75 26l-8 11m8-11 9 5"/><circle cx="35" cy="31" r="4"/><circle cx="55" cy="14" r="4"/></svg><strong data-i18n="robotSource">Limited robot demonstrations</strong></div>
+          <div class="route-connector" aria-hidden="true">↓</div>
+          <div class="route-dual"><div><span class="route-number">01</span><strong data-i18n="learnRepresentation">Learn action representations</strong></div><span class="route-plus" aria-hidden="true">+</span><div><span class="route-number">02</span><strong data-i18n="learnGeneration">Learn task-conditioned generation</strong></div></div>
+          <p class="route-foot" data-i18n="directFoot">The same demonstrations support both learning problems.</p>
+        </article>
+        <article class="learning-route route-arpg" aria-labelledby="arpg-route-title">
+          <div class="route-heading"><span class="route-kicker">ARPG</span><h3 id="arpg-route-title" data-i18n="arpgRouteTitle">Learn the representation first.</h3></div>
+          <div class="route-source"><svg viewBox="0 0 100 52" aria-hidden="true"><rect x="8" y="12" width="24" height="31" rx="4"/><rect x="38" y="8" width="24" height="35" rx="4"/><rect x="68" y="4" width="24" height="39" rx="4"/><path d="m16 33 5-10 5 10m20-3 5-12 5 12m20-3 5-14 5 14"/></svg><strong data-i18n="humanSource">Rich human manipulation data</strong></div>
+          <div class="route-connector" aria-hidden="true">↓</div>
+          <div class="route-step"><span class="route-number">01</span><strong data-i18n="pretrainRepresentation">Pretrain action representations</strong></div>
+          <div class="route-transfer"><span aria-hidden="true">↓</span><span data-i18n="robotTransfer">Then use robot demonstrations</span></div>
+          <div class="route-step"><span class="route-number">02</span><strong data-i18n="generateRepresentation">Learn generation in this space</strong></div>
+          <p class="route-foot" data-i18n="arpgFoot">Human data provides a foundation for action generation.</p>
+        </article>
+      </div>
+      <p class="research-takeaway" data-i18n="researchTakeaway">Separate representation learning from generation.<br>Bring human motion experience into robot learning.</p>
     </section>
     <section id="motivation" class="wrap space-explainer" aria-labelledby="space-title">
       <span id="action-space" class="anchor-target"></span><div class="section-intro"><div class="section-label" data-space="eyebrow">VISUAL INTUITION · 26 SECONDS</div>
