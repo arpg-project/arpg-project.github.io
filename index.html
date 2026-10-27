@@ -16,10 +16,10 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=visible-playback-1">
+  <link rel="stylesheet" href="editorial.css?v=manifold-caption-1">
   <script src="controls.js?v=motivation-refine-1" defer></script>
   <script src="app.js?v=white-method-1" defer></script>
-  <script src="manifold.js?v=five-second-stage-1" defer></script>
+  <script src="manifold.js?v=manifold-caption-1" defer></script>
   <script src="motion.js?v=visible-playback-1" defer></script>
 </head>
 <body>
@@ -52,7 +52,10 @@
       <div class="space-scroll-story"><div class="space-studio">
         <div class="space-switch" role="group" aria-label="Animation chapters"><span class="space-switch-thumb" aria-hidden="true"></span><button type="button" data-space-chapter="0"></button><button type="button" data-space-chapter="1"></button><button type="button" data-space-chapter="2"></button></div>
         <div class="space-player">
-          <p id="space-caption-title" class="space-statement" aria-live="polite"></p>
+          <div id="space-caption" aria-live="polite">
+            <p id="space-caption-title" class="space-statement"></p>
+            <p id="space-caption-note" class="space-caption-note" hidden></p>
+          </div>
           <div class="surface-pair">
             <div class="surface-view"><div class="surface-label"><span class="surface-dot raw-dot"></span><h3 data-space="raw">Raw action space</h3></div><canvas id="space-raw" role="img" aria-label="Raw action samples and an illustrative learned surface"></canvas></div>
             <div class="surface-view"><div class="surface-label"><span class="surface-dot"></span><h3 data-space="latent">Learned action space</h3></div><canvas id="space-latent" role="img" aria-label="The same samples reorganized by an encoder"></canvas></div>

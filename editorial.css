@@ -204,3 +204,7 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
 .space-evidence .motivation-abstract{margin:18px 0 0;max-width:none;border:0;border-top:1px solid var(--line)}
 .space-evidence .motivation-abstract summary{padding:18px 0 6px;font-size:13px}
 .space-evidence .motivation-abstract>p{padding:16px 0 0}
+
+/* Stage explanation: a prominent title followed by quieter scientific context. */
+.space-caption-note{max-width:680px;margin:0 auto 20px;padding-inline:12px;font-size:clamp(12px,1.35vw,14px);line-height:1.7;text-align:center;color:#74747d}
+.space-caption-note[hidden]{display:none}
