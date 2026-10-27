@@ -12,7 +12,7 @@ copy.en.heroTitle='Scaling Dexterous Manipulation<br>via Action Representation P
 copy.zh.heroTitle='通过动作表征预训练<br>扩展灵巧操作能力';
 
 Object.assign(copy.en, {
- demoTitle:'Dexterity, in motion.', demoIntro:'Three tasks. Coordinated hands. Watch ARPG in the real world.',
+ demoTitle:'Real-world task demonstrations.', demoIntro:'Three tasks. Coordinated hands. Watch ARPG in the real world.',
  realLabel:'ON THE ROBOT', taskLabel:'Task', realEvidenceTitle:'Real-world evaluation · three tasks', auxiliaryDetails:'Additional ablations',
  methodLabel:'HOW IT WORKS', methodTitle:'Learn the action representation space.<br>Then learn to generate representations.', methodIntro:'Pretrain an action representation, adapt its decoder, and learn a compact generative policy.',
  benchmarkLabel:'THE EVIDENCE', benchmarkTitle:'Stronger coordination.<br>Measured in success.', benchmarkIntro:'Evaluated on 11 dexterous tasks: six single-arm and five bimanual.',
@@ -24,7 +24,7 @@ Object.assign(copy.en, {
  outlookLabel:'WHAT COMES NEXT', resourcesLabel:'THE PAPER',
 });
 Object.assign(copy.zh, {
- navIntuition:'直观理解', demoTitle:'让动作，自己说话。', demoIntro:'三项真实任务，展现灵巧操作与协同。',
+ navIntuition:'直观理解', demoTitle:'真实机器人任务演示。', demoIntro:'三项真实任务，展现灵巧操作与协同。',
  realLabel:'真实机器人', taskLabel:'任务', realEvidenceTitle:'真机评估 · 三项任务', auxiliaryDetails:'更多消融实验',
  methodLabel:'方法', methodTitle:'先学习动作表征空间，<br>再学习如何生成动作表征。', methodIntro:'预训练动作表征，适配机器人解码器，再学习轻量级生成策略。',
  benchmarkLabel:'实验证据', benchmarkTitle:'更强的协同，<br>用成功率验证。', benchmarkIntro:'在 11 项灵巧操作任务上评估：6 项单臂，5 项双手。',

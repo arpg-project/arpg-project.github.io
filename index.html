@@ -16,11 +16,11 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=research-intro-1">
-  <script src="controls.js?v=research-intro-1" defer></script>
-  <script src="app.js?v=research-intro-1" defer></script>
-  <script src="manifold.js?v=research-intro-1" defer></script>
-  <script src="motion.js?v=research-intro-1" defer></script>
+  <link rel="stylesheet" href="editorial.css?v=motivation-refine-1">
+  <script src="controls.js?v=motivation-refine-1" defer></script>
+  <script src="app.js?v=motivation-refine-1" defer></script>
+  <script src="manifold.js?v=motivation-refine-1" defer></script>
+  <script src="motion.js?v=motivation-refine-1" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content / 跳至正文</a>
@@ -46,34 +46,10 @@
         <p data-i18n="realTakeaway">ARPG improves success on all three evaluated tasks, with the largest gain on pouring coffee beans: 33.3 percentage points.</p>
             </div>
     </section>
-    <section id="research-motivation" class="chapter wrap research-motivation" aria-labelledby="research-title">
-      <div class="section-intro">
-        <div class="section-label" data-i18n="researchLabel">RESEARCH MOTIVATION</div>
-        <div class="section-heading"><h2 id="research-title" data-i18n="researchTitle">Limited robot demonstrations.<br>Two learning problems.</h2><p data-i18n="researchIntro">Learning how actions are represented, and how to generate them for a task.</p></div>
-      </div>
-      <div class="learning-routes">
-        <article class="learning-route route-direct" aria-labelledby="direct-title">
-          <div class="route-heading"><span class="route-kicker" data-i18n="directLabel">DIRECT LEARNING</span><h3 id="direct-title" data-i18n="directTitle">Learn both from robot data.</h3></div>
-          <div class="route-source"><svg viewBox="0 0 100 52" aria-hidden="true"><path d="M18 46h64M35 44V31l20-17 20 12M55 14l-9-7M75 26l-8 11m8-11 9 5"/><circle cx="35" cy="31" r="4"/><circle cx="55" cy="14" r="4"/></svg><strong data-i18n="robotSource">Limited robot demonstrations</strong></div>
-          <div class="route-connector" aria-hidden="true">↓</div>
-          <div class="route-dual"><div><span class="route-number">01</span><strong data-i18n="learnRepresentation">Learn action representations</strong></div><span class="route-plus" aria-hidden="true">+</span><div><span class="route-number">02</span><strong data-i18n="learnGeneration">Learn task-conditioned generation</strong></div></div>
-          <p class="route-foot" data-i18n="directFoot">The same demonstrations support both learning problems.</p>
-        </article>
-        <article class="learning-route route-arpg" aria-labelledby="arpg-route-title">
-          <div class="route-heading"><span class="route-kicker">ARPG</span><h3 id="arpg-route-title" data-i18n="arpgRouteTitle">Learn the representation first.</h3></div>
-          <div class="route-source"><svg viewBox="0 0 100 52" aria-hidden="true"><rect x="8" y="12" width="24" height="31" rx="4"/><rect x="38" y="8" width="24" height="35" rx="4"/><rect x="68" y="4" width="24" height="39" rx="4"/><path d="m16 33 5-10 5 10m20-3 5-12 5 12m20-3 5-14 5 14"/></svg><strong data-i18n="humanSource">Rich human manipulation data</strong></div>
-          <div class="route-connector" aria-hidden="true">↓</div>
-          <div class="route-step"><span class="route-number">01</span><strong data-i18n="pretrainRepresentation">Pretrain action representations</strong></div>
-          <div class="route-transfer"><span aria-hidden="true">↓</span><span data-i18n="robotTransfer">Then use robot demonstrations</span></div>
-          <div class="route-step"><span class="route-number">02</span><strong data-i18n="generateRepresentation">Learn generation in this space</strong></div>
-          <p class="route-foot" data-i18n="arpgFoot">Human data provides a foundation for action generation.</p>
-        </article>
-      </div>
-      <p class="research-takeaway" data-i18n="researchTakeaway">Separate representation learning from generation.<br>Bring human motion experience into robot learning.</p>
-    </section>
     <section id="motivation" class="wrap space-explainer" aria-labelledby="space-title">
-      <span id="action-space" class="anchor-target"></span><div class="section-intro"><div class="section-label" data-space="eyebrow">VISUAL INTUITION · 26 SECONDS</div>
+      <span id="research-motivation" class="anchor-target"></span><span id="action-space" class="anchor-target"></span><div class="section-intro"><div class="section-label" data-space="eyebrow">VISUAL INTUITION · 26 SECONDS</div>
       <div class="section-heading"><h2 id="space-title" data-space="title">Change the space.<br>Change the learning problem.</h2><p data-space="intro">The same actions can be easier to model in a learned representation. Watch the data change coordinates before the generator learns their structure.</p></div></div>
+      <details class="motivation-abstract"><summary data-i18n="abstract">Read the abstract</summary><p id="abstract-text"></p></details>
       <div class="space-scroll-story"><div class="space-studio">
         <div class="space-switch" role="group" aria-label="Animation chapters"><span class="space-switch-thumb" aria-hidden="true"></span><button type="button" data-space-chapter="0"></button><button type="button" data-space-chapter="1"></button><button type="button" data-space-chapter="2"></button></div>
         <div class="space-player">
@@ -89,7 +65,7 @@
         <p class="space-footnote" data-space="badge">Conceptual visualization</p>
       </div>
       </div>
-      <div class="space-evidence"><div><span class="tiny" data-space="evidenceLabel">CHECK THE EXPERIMENT</span><p data-space="evidence">Raw action generation <strong>13.3%</strong> → Generation in action representation space&nbsp;<strong>57.8%</strong></p><a href="#ablations" data-space="evidenceLink">DexJoCo overall success · Table 2(a) ↗</a></div><details class="space-details"><summary data-space="details">How this relates to ARPG</summary><p data-space="decoding">A decoder converts generated representations into robot actions.</p><p data-space="caveat">Conceptual animation, not a projection of measured embeddings or a training simulation. A useful representation need not be lower-dimensional or flat. Its benefit depends on the pretraining objective, motion information retained, and decoder quality; the ablation does not establish manifold flattening as the cause.</p></details></div>
+      <div class="space-evidence"><details class="space-details"><summary data-space="details">How this relates to ARPG</summary><p data-space="decoding">A decoder converts generated representations into robot actions.</p><p data-space="caveat">Conceptual animation, not a projection of measured embeddings or a training simulation. A useful representation need not be lower-dimensional or flat. Its benefit depends on the pretraining objective, motion information retained, and decoder quality; the ablation does not establish manifold flattening as the cause.</p></details></div>
     </section>
 
     <section id="method" class="method-section"><div class="wrap chapter">
@@ -112,7 +88,7 @@
         <div class="method-figure-bottom"><figcaption id="method-figure-caption" class="caption" data-i18n="methodCaption">Figure 2. Original ARPG framework. Stage 1 learns a structured, decodable action space; Stage 2 learns conditional generation in that frozen space. The action encoder constructs training targets and is not used at inference.</figcaption><span class="figure-scroll-hint" data-i18n="figureScrollHint">Swipe to explore the diagram ↔</span></div>
       </figure>
       </div></div>
-      <div class="inference-strip"><div><span class="tiny" data-i18n="inferenceLabel">AT INFERENCE</span><h3 data-i18n="inferenceTitle">Inference: from observation to action.</h3></div><ol class="inference-flow"><li data-i18n="infer1">Visual observations<br>+ robot state</li><li data-i18n="infer2">130M DiT<br>generates action representations</li><li data-i18n="infer3">Frozen decoder<br>outputs an action chunk</li></ol><p data-i18n="inferenceNote">Generation starts from Gaussian noise. Neither the action encoder nor the V-JEPA video reference runs at inference. The complete active policy has 0.46B parameters; 130M refers only to its generative backbone.</p></div>
+      <div class="inference-strip"><div><span class="tiny" data-i18n="inferenceLabel">AT INFERENCE</span><h3 data-i18n="inferenceTitle">Inference: from observation to action.</h3></div><ol class="inference-flow"><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="5" y="7" width="30" height="22" rx="4"/><path d="m9 24 7-7 6 5 5-8 4 10M16 34h8"/></svg><span>01</span></div><strong data-i18n="infer1"></strong></li><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 11h28M6 20h28M6 29h28"/><circle cx="13" cy="11" r="3"/><circle cx="27" cy="20" r="3"/><circle cx="18" cy="29" r="3"/></svg><span>02</span></div><strong data-i18n="infer2"></strong></li><li><div class="infer-icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 31h30M11 28V17l13-9 8 7M24 8l-6-4M32 15l-4 8m4-8 5 5"/></svg><span>03</span></div><strong data-i18n="infer3"></strong></li></ol><p data-i18n="inferenceNote">Generation starts from Gaussian noise. Neither the action encoder nor the V-JEPA video reference runs at inference. The complete active policy has 0.46B parameters; 130M refers only to its generative backbone.</p></div>
 
 
     </div></section>
@@ -143,7 +119,6 @@
     </section>
 
 
-    <section id="resources" class="chapter wrap resources"><div class="section-intro"><div class="section-label"><span data-i18n="resourcesLabel">RESOURCES</span></div><div class="section-heading"><h2 data-i18n="resourcesTitle">Explore the research.</h2><p data-i18n="resourcesIntro">Read the manuscript for complete methods, implementation details, evaluation protocols, and additional analyses.</p></div></div><details><summary data-i18n="abstract">Read the abstract</summary><p id="abstract-text"></p></details></section>
   </main>
   <footer class="wrap"><a class="brand" href="#">ARPG<span>REPRESENTATION → GENERATION</span></a><a href="#" data-i18n="backTop">Back to top ↑</a></footer>
   <dialog id="image-dialog"><button id="close-dialog" aria-label="Close image / 关闭图片">×</button><img id="dialog-image" alt=""></dialog>
