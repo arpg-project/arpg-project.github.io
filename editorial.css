@@ -174,3 +174,8 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
  html.intro-motion .section-intro :is(.section-label,h2,.section-heading>p),
  html.intro-motion .section-intro>p{opacity:1;transform:none;transition:none}
 }
+
+.deployment-intro{margin-top:88px;margin-bottom:36px}
+.scaling-segment-note{display:flex;align-items:baseline;justify-content:center;gap:10px;font-size:12px;line-height:1.6;color:var(--muted);margin:4px 0 12px;text-align:left}
+.scaling-segment-note>span{flex:0 0 28px;border-top:2px dashed var(--purple);transform:translateY(-3px)}
+@media(max-width:700px){.deployment-intro{margin-top:60px;margin-bottom:26px}.scaling-segment-note{font-size:11px}}

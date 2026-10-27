@@ -16,8 +16,8 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=neutral-white-1">
-  <script src="app.js?v=arxiv-261034453" defer></script>
+  <link rel="stylesheet" href="editorial.css?v=results-copy-1">
+  <script src="app.js?v=results-copy-1" defer></script>
   <script src="manifold.js?v=scroll-story-2" defer></script>
   <script src="motion.js?v=language-scroll-fix-2" defer></script>
 </head>
@@ -93,10 +93,11 @@
 
     <section id="benchmark" class="chapter wrap">
       <div class="section-intro"><div class="section-label"><span data-i18n="benchmarkLabel">DEXJOCO BENCHMARK</span></div>
-      <div class="section-heading"><h2 data-i18n="benchmarkTitle">Stronger coordination.<br>Smaller deployment footprint.</h2><p data-i18n="benchmarkIntro">11 dexterous manipulation tasks: six single-arm and five bimanual. Success rates are macro-averaged using the benchmark’s task definitions and success criteria.</p></div></div>
+      <div class="section-heading"><h2 data-i18n="benchmarkTitle">Stronger dexterous manipulation.</h2><p data-i18n="benchmarkIntro">Evaluated on DexJoCo.</p></div></div>
       <div class="result-callout"><strong>+34.6<span data-i18n="pp">percentage points</span></strong><p data-i18n="resultMeaning">Bimanual success rises from 10.1% to 44.7% under multi-task training. This is the clearest gain in the benchmark: coordinating two hands across multiple tasks.</p></div>
       <div class="chart-toolbar"><div class="segmented" role="group" aria-label="Training setting"><button data-regime="multi" aria-pressed="true" data-i18n="multi">Multi-task training</button><button data-regime="single" aria-pressed="false" data-i18n="single">Single-task training</button></div><span class="tiny" data-i18n="successRate">SUCCESS RATE (%) ↑</span></div>
       <div id="benchmark-chart" class="benchmark-chart"></div><p id="benchmark-caption" class="caption"></p>
+      <div class="section-intro deployment-intro"><div class="section-heading"><h2 data-i18n="deploymentTitle">Lower deployment costs.</h2></div></div>
       <div class="efficiency"><div><span data-i18n="vram">Peak inference VRAM</span><strong>2.63 <small>GB</small></strong><p data-i18n="vramNote">π0.5: 9.05 GB</p></div><div><span data-i18n="latency">Inference latency</span><strong>50.8 <small>ms</small></strong><p data-i18n="latencyNote">π0.5: 84.9 ms</p></div><div><span data-i18n="activeParams">Active inference parameters</span><strong>0.46 <small>B</small></strong><p data-i18n="paramsNote">π0.5: 3.35B · Backbone: 130M</p></div></div>
       <details class="data-details"><summary data-i18n="fullTable">Explore the full comparison · Table 1</summary><div class="table-scroll"><table><caption data-i18n="tableCaption">DexJoCo performance and inference costs · Table 1</caption><thead><tr><th data-i18n="setting">Setting</th><th data-i18n="method">Method</th><th>Params (B)</th><th>VRAM (GB)</th><th>Latency (ms)</th><th data-i18n="singleArm">Single-arm (%)</th><th data-i18n="bimanual">Bimanual (%)</th><th data-i18n="overall">Overall (%)</th></tr></thead><tbody id="results-table"></tbody></table></div></details>
       <p class="caption" data-i18n="benchmarkSource">Source: Table 1. Baseline benchmark results are reported by DexJoCo. Inference costs follow the measurement configuration in the paper; they are not hardware-independent guarantees.</p>
@@ -105,10 +106,9 @@
     </section>
 
     <section id="scaling" class="chapter wrap">
-      <div class="section-intro"><div class="section-label"><span data-i18n="scalingLabel">SCALING PRETRAINING</span></div><div class="section-heading"><h2 data-i18n="scalingTitle">Scale the behaviors.<br>Not only the hours.</h2><p data-i18n="scalingIntro">Can a better pretrained action space improve manipulation without more robot demonstrations or a larger generative backbone? We vary three pretraining dimensions separately.</p></div></div>
+      <div class="section-intro"><div class="section-label"><span data-i18n="scalingLabel">SCALING PRETRAINING</span></div><div class="section-heading"><h2 data-i18n="scalingTitle">More diverse human actions.<br>Better action generation.</h2><p data-i18n="scalingIntro">Can a better pretrained action space improve manipulation without more robot demonstrations or a larger generative backbone? We vary three pretraining dimensions separately.</p></div></div>
       <div class="scaling-layout"><div><div class="segmented scaling-tabs" role="group" aria-label="Pretraining dimension"><button data-scale="data" aria-pressed="true" data-i18n="data">Data</button><button data-scale="capacity" aria-pressed="false" data-i18n="capacity">Encoder</button><button data-scale="compute" aria-pressed="false" data-i18n="compute">Compute</button></div><div id="scaling-chart"></div></div><div class="scaling-insight" id="scaling-insight"></div></div>
       <p class="caption" data-i18n="scalingCaption">Figure 4 · Downstream DexJoCo overall success. Data settings are nested subsets. Lines connect evaluated configurations, not a fitted scaling law. Other configurations are held fixed within each comparison.</p>
-      <div class="research-note"><span data-i18n="researchNote">A RESEARCH FINDING, WITH A LIMIT</span><p data-i18n="scalingCaveat">Data volume and behavioral coverage both change from 10 to 500 hours, so their causal contributions cannot be isolated. The 3,000-hour expansion concentrates on already represented task categories. Larger encoders and longer pretraining also yield no consistent additional gains.</p></div>
     </section>
 
     <section id="ablations" class="chapter wrap ablations">
