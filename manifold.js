@@ -18,7 +18,6 @@
     const u=-.87+(i%9)*.2175,v=-.84+Math.floor(i/9)*.336;
     return {u:u+.095*Math.sin(i*71.3),v:v+.1*Math.cos(i*43.7),a:u,b:v};
   });
-  let scrollDriven=false;
   let time=0,playing=false,visible=false,previous=0,frame=0,lastChapter=-1,language,text,hasStarted=false;
   const playIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 9 6-9 6Z"/></svg>';
   const pauseIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h3v12H8zm5 0h3v12h-3z"/></svg>';
@@ -29,7 +28,7 @@
     const dpr=Math.min(devicePixelRatio||1,2);
     if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
     const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-    const morph=latent?ease((time-5)/6):0, fit=ease((time-12)/5);
+    const morph=latent?ease(time/11):0, fit=ease(time/17);
     const scale=Math.min(w*.345,h*.64);
     // Fixed shared camera preserves point correspondence throughout the transition.
     const project=(u,v,z)=>[w*.5+scale*(u*.86-v*.57),h*.55+scale*(u*.29+v*.43-z*.65)];
@@ -79,20 +78,16 @@
     $('space-scrub').value=time;root.querySelector('.space-rail').style.setProperty('--progress',`${time/duration*100}%`);
     draw($('space-raw'),false);draw($('space-latent'),true);
   }
-  function translate(){language=document.documentElement.lang.startsWith('zh')?'zh':'en';text=strings[language];root.querySelectorAll('[data-space]').forEach(el=>{el.innerHTML=text[el.dataset.space]||'';});root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.textContent=text.chapters[i]);$('space-scrub').setAttribute('aria-label',text.timeline);lastChapter=-1;if(scrollDriven)root.querySelector('.space-footnote').textContent=language==='zh'?'向下滚动，逐步观看 · 也可点击阶段或拖动进度':'Scroll to explore · or select a chapter and scrub';update();}
+  function translate(){language=document.documentElement.lang.startsWith('zh')?'zh':'en';text=strings[language];root.querySelectorAll('[data-space]').forEach(el=>{el.innerHTML=text[el.dataset.space]||'';});root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.textContent=text.chapters[i]);$('space-scrub').setAttribute('aria-label',text.timeline);lastChapter=-1;root.querySelector('.space-footnote').textContent=reduced.matches?text.badge:(language==='zh'?'进入视野自动播放 · 可随时暂停或拖动进度':'Plays when visible · pause or scrub at any time');update();}
   function tick(now){frame=0;if(!playing||!visible||document.hidden)return;if(previous)time=Math.min(duration,time+(now-previous)/1000);previous=now;if(time>=duration)playing=false;update();if(playing)frame=requestAnimationFrame(tick);}
   function start(){if(frame)cancelAnimationFrame(frame);frame=0;previous=0;if(playing&&visible&&!document.hidden)frame=requestAnimationFrame(tick);update();}
   $('space-play').onclick=()=>{hasStarted=true;if(time>=duration)time=0;playing=!playing;start();};
-  $('space-scrub').oninput=e=>{if(scrollDriven){document.dispatchEvent(new CustomEvent('arpg:space-seek',{detail:Number(e.target.value)/duration}));return;}hasStarted=true;time=Number(e.target.value);playing=false;start();};
-  root.querySelectorAll('[data-space-chapter]').forEach((button,i)=>button.onclick=()=>{if(scrollDriven){document.dispatchEvent(new CustomEvent('arpg:space-seek',{detail:(starts[i]+.05)/duration}));return;}hasStarted=true;time=reduced.matches?[10.9,17.9,26][i]:starts[i];playing=!reduced.matches;start();});
+  $('space-scrub').oninput=e=>{hasStarted=true;time=Number(e.target.value);playing=false;start();};
+  root.querySelectorAll('[data-space-chapter]').forEach((button,i)=>button.onclick=()=>{hasStarted=true;time=reduced.matches?[10.9,17.9,26][i]:starts[i];playing=!reduced.matches;start();});
   new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   new ResizeObserver(update).observe(root);
-  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible&&!hasStarted&&!reduced.matches&&!scrollDriven){hasStarted=true;playing=true;}start();},{threshold:.35}).observe(root.querySelector('.space-player'));
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting&&entries[0].intersectionRatio>=.35;if(visible&&!hasStarted&&!reduced.matches){hasStarted=true;playing=true;}start();},{threshold:.35}).observe(root.querySelector('.space-player'));
   document.addEventListener('visibilitychange',start);
-  reduced.addEventListener('change',()=>{if(reduced.matches){playing=false;start();}});
-  window.arpgSpace={
-    setScrollMode(enabled){scrollDriven=enabled;playing=false;start();},
-    seek(progress){time=clamp(progress)*duration;playing=false;hasStarted=true;start();}
-  };
+  reduced.addEventListener('change',()=>{if(reduced.matches)playing=false;translate();start();});
   translate();
 })();

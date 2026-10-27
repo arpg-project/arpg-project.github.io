@@ -68,8 +68,12 @@ The source files remain unmodified.
 
 ### Scroll narrative
 
-`motion.js` derives method and action-space progress from current DOM geometry on native scroll events. Language switches preserve the active scene’s normalized progress and remeasure after translation. Heading entrances use an independent IntersectionObserver. On viewports at least 760 × 700, the animation follows native scrolling with reversible progress; chapter buttons and the timeline seek the same scroll position. Smaller viewports retain the standard player. Reduced-motion preferences disable pinned scroll scenes and entrances. No wheel events are intercepted. Previously downloaded GSAP files are retained in `assets/vendor/` but are no longer loaded.
+`motion.js` derives method diagram progress from current DOM geometry on native scroll events. Language switches preserve the active scene’s normalized progress and remeasure after translation. Heading entrances use an independent IntersectionObserver. On viewports at least 760 × 700, the method diagram follows native scrolling with reversible progress. The intuition animation uses visibility-based playback on every viewport; its chapter buttons and timeline never move the page. Reduced-motion preferences disable pinned scroll scenes and entrances. No wheel events are intercepted. Previously downloaded GSAP files are retained in `assets/vendor/` but are no longer loaded.
 
 ### Web video playback
 
 The inline player uses `*-web.mp4`: 1080p, 30 fps, H.264 CRF 23, 3 Mbps max rate, 1-second keyframes, no audio and faststart metadata. The original annotated 1080p/60 files remain available through the full-quality link. Active videos preload automatically and play muted when visible; Save-Data and reduced-motion users keep manual playback. Media elements are cached across task and language switches. Local playback checks do not establish production cold-cache network timings.
+
+### Intuition playback
+
+The intuition player stays in normal document flow, with no pinned panel or extra scroll distance. It starts automatically when at least 35% visible, pauses its animation clock offscreen or in a hidden tab, and resumes on return. Explicit pause and timeline scrubbing remain paused until the user presses play. Chapter buttons seek and play without moving the page. Reduced-motion users retain manual playback. Method diagram scroll stages remain independent. Surface motion begins at the start of playback.

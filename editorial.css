@@ -136,16 +136,8 @@ p{color:#707078}h1,h2,h3{letter-spacing:-.035em}h2{font-size:clamp(34px,4.5vw,58
 @media(min-width:701px) and (max-height:800px){#space-story{height:120px}.space-studio .surface-view canvas{height:190px}.space-studio .space-player{padding-top:24px}.space-studio .space-statement{font-size:20px}}
 @media(min-width:701px) and (max-height:800px){#space-story{height:154px}.space-studio .surface-view canvas{height:156px}}
 
-/* Product narrative: one scene, controlled by reading progress. */
+/* The intuition player stays in normal flow and plays while visible. */
 .space-scroll-story{position:relative}
-.space-scroll-enabled{height:calc(var(--space-height,650px) + 220vh)}
-.space-scroll-enabled .space-studio{position:sticky;top:80px;padding:8px 0 14px}
-.space-scroll-enabled .space-switch{margin-bottom:16px}
-.space-scroll-enabled .space-player{padding-top:22px;padding-bottom:14px}
-.space-scroll-enabled .surface-view canvas{height:clamp(130px,21vh,230px)}
-.space-scroll-enabled #space-story{height:clamp(105px,16vh,154px)}
-.space-scroll-enabled .space-statement{font-size:clamp(17px,1.8vw,22px)}
-.space-scroll-enabled .space-footnote{margin-top:12px}
 .method-story.scroll-enabled{height:calc(var(--sticky-height,650px) + 180vh)}
 .method-story.scroll-enabled .method-reading{font-size:12px;letter-spacing:.02em}
 .method-story.scroll-enabled .method-figure{box-shadow:0 12px 60px #33264c06}
