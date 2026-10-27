@@ -98,7 +98,8 @@ function renderReal(){
   const continuePlaying=previous&&!previous.paused;
   // Keep the media element outside the translated markup to preserve buffering.
   if(existing && previous===existing.video) existing.video.remove();
-  document.getElementById('real-cards').innerHTML=`
+  const nextCards=document.createElement('div');
+  nextCards.innerHTML=`
     <div class="demo-player"><video id="demo-video" data-task-key="${r.key}" controls muted loop playsinline preload="auto" poster="assets/videos/${r.key}-poster.jpg?v=annotated1080-2" aria-label="${title}"><source src="assets/videos/${r.key}-web.mp4?v=fast1080-1" type="video/mp4">${t('Your browser does not support video.','你的浏览器不支持视频。')}</video></div>
     <div class="demo-taskbar" role="group" aria-label="${t('Choose a demonstration','选择任务演示')}">${tasks.map((item,k)=>`<button type="button" data-task="${k}" aria-pressed="${selectedTask===k}"><span class="task-index">0${k+1}</span>${lang==='en'?item.en:item.zh}</button>`).join('')}</div>
     <div class="demo-caption"><p>${[
@@ -108,11 +109,12 @@ function renderReal(){
     ][selectedTask]}</p><a href="assets/videos/${r.key}.mp4?v=annotated1080-2" target="_blank" rel="noopener">${t('Open full-quality video','打开高清原视频')} ↗</a></div>
     <p class="demo-note">${t('Edited demonstrations · 2× speed.','任务演示剪辑 · 2 倍速。')} <button id="evaluation-toggle" type="button" aria-controls="real-evaluation" aria-expanded="${!document.getElementById('real-evaluation').hidden}">${document.getElementById('real-evaluation').hidden?t('See the evaluation','查看实验评估'):t('Hide the evaluation','收起实验评估')}<span aria-hidden="true">⌄</span></button></p>`;
   if(previousBar){
-    const newBar=document.querySelector('.demo-taskbar');
+    const newBar=nextCards.querySelector('.demo-taskbar');
     previousBar.setAttribute('aria-label',newBar.getAttribute('aria-label'));
     [...previousBar.children].forEach((button,i)=>{button.innerHTML=newBar.children[i].innerHTML;button.setAttribute('aria-pressed',String(i===selectedTask));});
-    newBar.replaceWith(previousBar);
-  }
+    // Keep the live capsule mounted so its CSS transition is not interrupted.
+    ['.demo-player','.demo-caption','.demo-note'].forEach(selector=>{document.querySelector(selector).replaceWith(nextCards.querySelector(selector));});
+  }else document.getElementById('real-cards').replaceChildren(...nextCards.children);
   window.arpgControls.setup();
   const placeholder=document.getElementById('demo-video');
   if(existing){placeholder.replaceWith(existing.video);existing.video.setAttribute('aria-label',title);if(continuePlaying)existing.video.play().catch(()=>{});}

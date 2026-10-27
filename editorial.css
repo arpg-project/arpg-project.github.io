@@ -183,8 +183,10 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
 /* One capsule treatment for every chapter, task and experiment switch. */
 :is(.segmented,.stage-tabs,.demo-taskbar,.space-switch){position:relative;isolation:isolate;border-radius:999px}
 :is(.segmented,.stage-tabs,.demo-taskbar,.space-switch)::before{content:"";position:absolute;pointer-events:none;z-index:0;left:0;top:0;width:var(--pill-w,0);height:var(--pill-h,0);transform:translate(var(--pill-x,0),var(--pill-y,0));border-radius:999px;background:#fff;box-shadow:0 2px 8px #00000008}
-:is(.segmented,.stage-tabs,.demo-taskbar,.space-switch).pill-ready::before{transition:transform .38s cubic-bezier(.22,1,.36,1),width .38s cubic-bezier(.22,1,.36,1),height .38s ease}
+:is(.segmented,.stage-tabs,.demo-taskbar,.space-switch).pill-ready::before{transition:transform .6s cubic-bezier(.4,0,.2,1),width .6s cubic-bezier(.4,0,.2,1),height .6s cubic-bezier(.4,0,.2,1)}
 :is(.segmented,.stage-tabs,.demo-taskbar,.space-switch)>button{position:relative;z-index:1;border-radius:999px;background:transparent!important;box-shadow:none!important;transition:color .2s ease}
 .space-switch-thumb{display:none}
 .scroll-enabled .stage-summary h3{animation:none}
 @media(prefers-reduced-motion:reduce){:is(.segmented,.stage-tabs,.demo-taskbar,.space-switch).pill-ready::before{transition:none}}
+
+.space-switch{grid-template-columns:repeat(3,1fr)}

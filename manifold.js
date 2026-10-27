@@ -4,10 +4,10 @@
   if(!root)return;
   const $=id=>document.getElementById(id);
   const strings={
-    en:{eyebrow:'VISUAL INTUITION',title:'Same actions.<br>A better space to learn.',intro:'First learn how actions are organized. Then learn to generate them.',raw:'Raw actions',latent:'Action representations',legendPoints:'One point · one action chunk',legendSurface:'Mesh · learned structure',badge:'Conceptual visualization · 26 seconds',chapters:['Action chunk','Encode','Generate','Decode'],titles:['One point stands for a short action sequence.','The encoder maps action chunks to representations.','Conditioned on observations, generate a representation.','The decoder turns a representation into an action chunk.'],play:'Play animation',pause:'Pause animation',replay:'Replay animation',timeline:'Animation timeline',evidenceLabel:'THE EXPERIMENT',evidence:'Raw action generation <strong>13.3%</strong> → Generation in action representation space&nbsp;<strong>57.8%</strong>',evidenceLink:'DexJoCo overall success · Table 2(a) ↗',details:'How this relates to ARPG',decoding:'ARPG learns representations using video–action alignment. A generator learns in this frozen space; a decoder converts generated representations into robot actions.',caveat:'The gripper motion, points and surfaces are conceptual illustrations, not measured robot trajectories, embeddings or a training simulation. Encoding illustrates representation learning; at inference, generation starts from noise, conditioned on observations, without the action encoder. A useful representation need not be flat or lower-dimensional. Benefits depend on the pretraining objective, retained motion information, and decoder quality. The ablation does not establish manifold flattening as the cause.'},
-    zh:{eyebrow:'直观理解',title:'同样的动作，<br>换一个更好学的空间。',intro:'先学会动作如何组织，再学习如何生成。',raw:'原始动作',latent:'动作表征',legendPoints:'一个点 · 一段动作',legendSurface:'曲面 · 学到的结构',badge:'几何类比 · 26 秒概念演示',chapters:['动作片段','编码表征','条件生成','解码动作'],titles:['一个点，代表一段连续动作。','编码器，将动作片段映射到表征空间。','以观测为条件，生成动作表征。','解码器，将生成的表征还原为动作片段。'],play:'播放动画',pause:'暂停动画',replay:'重播动画',timeline:'动画进度',evidenceLabel:'实验证据',evidence:'原始动作生成 <strong>13.3%</strong> → 动作表征空间生成 <strong>57.8%</strong>',evidenceLink:'DexJoCo 总体成功率 · 表 2(a) ↗',details:'这与 ARPG 有什么关系？',decoding:'ARPG 通过视频与动作对齐学习表征，再在冻结的表征空间中训练生成器，最后由解码器还原机器人动作。',caveat:'夹爪动作、数据点和曲面均为概念示意，不是真实机器人轨迹、表征投影或训练仿真。编码展示表征学习；推理时以观测为条件，从噪声生成表征，无需动作编码器。好的表征不必低维或平坦；收益取决于预训练目标、运动信息的保留与解码质量。消融实验支持表征的有效性，但没有证明“流形变平”是提升的原因。'}
+    en:{eyebrow:'VISUAL INTUITION',title:'Same actions.<br>A better space to learn.',intro:'First learn how actions are organized. Then learn to generate them.',raw:'Raw actions',latent:'Action representations',legendPoints:'One point · one action chunk',legendSurface:'Mesh · learned structure',badge:'Conceptual visualization · 26 seconds',chapters:['Actions & encoding','Generate','Decode'],titles:['The same three-frame action chunk, before and after encoding.','Conditioned on observations, generate a representation.','The decoder turns a representation into an action chunk.'],play:'Play animation',pause:'Pause animation',replay:'Replay animation',timeline:'Animation timeline',evidenceLabel:'THE EXPERIMENT',evidence:'Raw action generation <strong>13.3%</strong> → Generation in action representation space&nbsp;<strong>57.8%</strong>',evidenceLink:'DexJoCo overall success · Table 2(a) ↗',details:'How this relates to ARPG',decoding:'ARPG learns representations using video–action alignment. A generator learns in this frozen space; a decoder converts generated representations into robot actions.',caveat:'The gripper motion, points and surfaces are conceptual illustrations, not measured robot trajectories, embeddings or a training simulation. Encoding illustrates representation learning; at inference, generation starts from noise, conditioned on observations, without the action encoder. A useful representation need not be flat or lower-dimensional. Benefits depend on the pretraining objective, retained motion information, and decoder quality. The ablation does not establish manifold flattening as the cause.'},
+    zh:{eyebrow:'直观理解',title:'同样的动作，<br>换一个更好学的空间。',intro:'先学会动作如何组织，再学习如何生成。',raw:'原始动作',latent:'动作表征',legendPoints:'一个点 · 一段动作',legendSurface:'曲面 · 学到的结构',badge:'几何类比 · 26 秒概念演示',chapters:['动作与表征','条件生成','解码动作'],titles:['同一段三帧动作，编码前后对应呈现。','以观测为条件，生成动作表征。','解码器，将生成的表征还原为动作片段。'],play:'播放动画',pause:'暂停动画',replay:'重播动画',timeline:'动画进度',evidenceLabel:'实验证据',evidence:'原始动作生成 <strong>13.3%</strong> → 动作表征空间生成 <strong>57.8%</strong>',evidenceLink:'DexJoCo 总体成功率 · 表 2(a) ↗',details:'这与 ARPG 有什么关系？',decoding:'ARPG 通过视频与动作对齐学习表征，再在冻结的表征空间中训练生成器，最后由解码器还原机器人动作。',caveat:'夹爪动作、数据点和曲面均为概念示意，不是真实机器人轨迹、表征投影或训练仿真。编码展示表征学习；推理时以观测为条件，从噪声生成表征，无需动作编码器。好的表征不必低维或平坦；收益取决于预训练目标、运动信息的保留与解码质量。消融实验支持表征的有效性，但没有证明“流形变平”是提升的原因。'}
   };
-  const duration=26, starts=[0,5,11,18], reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  const duration=26, starts=[0,11,18], reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const clamp=x=>Math.max(0,Math.min(1,x));
   const ease=x=>{x=clamp(x);return x*x*x*(x*(x*6-15)+10);};
   const lerp=(a,b,t)=>a+(b-a)*t;
@@ -76,7 +76,7 @@
     const dpr=Math.min(devicePixelRatio||1,2);
     if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);}
     const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);c.clearRect(0,0,w,h);
-    // Shared normalized coordinates keep all four scenes legible on a phone.
+    // Shared normalized coordinates keep all three scenes legible on a phone.
     const scale=Math.min(w/700,h/170);c.translate((w-700*scale)/2,0);c.scale(scale,scale);
     const zh=language==='zh',ink='#615175',muted='#93899f';
     const word=(en,cn)=>zh?cn:en;
@@ -101,20 +101,25 @@
       line([[0,5-lift],[gap,5-lift],[gap,30-lift],[gap-5,30-lift]],ink,2.5);
       c.restore();
     }
-    const local=clamp((time-starts[chapter])/([5,6,7,8][chapter]));
+    const local=clamp((time-starts[chapter])/([11,7,8][chapter]));
     if(chapter===0){
-      const collapse=ease((time-2.2)/2.2);
-      [0,.48,1].forEach((p,i)=>pose(lerp(95+i*90,365,collapse),lerp(50,60,collapse),p,1-collapse));
-      arrow(325,460,72,collapse);
-      dot(lerp(365,520,collapse),72,lerp(2,9,collapse));
-      label(word('Action sequence','动作序列（示意）'),190,132);
-      label(word('One sample in the plot','图中的一个数据点'),520,132);
+      // Both halves use the identical reach → grasp → lift frames throughout.
+      // The left sequence sits above raw actions; the right sequence enters the encoder.
+      const progress=ease((time-1)/8);
+      [0,.48,1].forEach((p,i)=>{
+        const emphasis=.45+.55*(.5+.5*Math.cos(time*1.8-i*2.1));
+        pose(72+i*91,48,p,emphasis);
+        c.save();c.translate(405+i*39,66);c.scale(.45,.45);pose(0,0,p,emphasis);c.restore();
+      });
+      label(word('Three-frame action chunk','三帧动作片段'),168,139,16);
+      line([[350,23],[350,150]],'#e3dfe9',1);
+      arrow(502,530,72);
+      c.fillStyle='#f0edf5';c.strokeStyle='#d9d0e5';c.beginPath();c.roundRect(532,53,82,38,10);c.fill();c.stroke();label(word('Encoder','编码器'),573,77,15,ink);
+      arrow(616,650,72);
+      dot(672,72,9);
+      if(progress>0 && progress<1)dot(lerp(503,672,progress),72,4);
+      label(word('Same chunk → representation','同一片段 → 动作表征'),535,139,16);
     }else if(chapter===1){
-      pose(110,49,.5+.5*Math.sin(local*Math.PI));label(word('Action chunk','动作片段'),110,132);
-      arrow(160,285,72);box(350,word('Encoder','动作编码器'));arrow(415,540,72);
-      const move=ease(local);dot(lerp(170,548,move),72,6);
-      dot(590,72,9);label(word('Representation z','动作表征 z'),590,132);
-    }else if(chapter===2){
       for(let i=0;i<12;i++)dot(100+22*Math.sin(i*5),72+22*Math.cos(i*7),2.5);
       label(word('Noise','噪声'),100,132);arrow(145,285,72);box(350,word('Generator','生成模型'));arrow(415,545,72);
       label(word('Vision + robot state','视觉观测 + 机器人状态'),350,20,13);
@@ -129,7 +134,7 @@
     canvas.setAttribute('aria-label',text.titles[chapter]);
   }
   function update(){
-    const chapter=time<5?0:time<11?1:time<18?2:3;
+    const chapter=time<11?0:time<18?1:2;
     if(chapter!==lastChapter){const initial=lastChapter<0;lastChapter=chapter;const caption=text.titles[chapter];if(initial)$('space-caption-title').textContent=caption;else window.arpgControls.transition('space-caption',['#space-caption-title'],()=>{$('space-caption-title').textContent=caption;});root.querySelector('.space-switch').style.setProperty('--step',chapter);root.querySelectorAll('[data-space-chapter]').forEach((b,i)=>b.setAttribute('aria-pressed',i===chapter));}
     const label=playing?text.pause:time>=duration?text.replay:text.play;
     const button=$('space-play');if(button.getAttribute('aria-label')!==label){button.setAttribute('aria-label',label);button.title=label;button.innerHTML=playing?pauseIcon:time>=duration?replayIcon:playIcon;}
@@ -143,7 +148,7 @@
   function start(){if(frame)cancelAnimationFrame(frame);frame=0;previous=0;if(playing&&visible&&!document.hidden)frame=requestAnimationFrame(tick);update();}
   $('space-play').onclick=()=>{hasStarted=true;if(time>=duration)time=0;playing=!playing;start();};
   $('space-scrub').oninput=e=>{if(scrollDriven){document.dispatchEvent(new CustomEvent('arpg:space-seek',{detail:Number(e.target.value)/duration}));return;}hasStarted=true;time=Number(e.target.value);playing=false;start();};
-  root.querySelectorAll('[data-space-chapter]').forEach((button,i)=>button.onclick=()=>{if(scrollDriven){document.dispatchEvent(new CustomEvent('arpg:space-seek',{detail:(starts[i]+.05)/duration}));return;}hasStarted=true;time=reduced.matches?[4.9,10.9,17.9,26][i]:starts[i];playing=!reduced.matches;start();});
+  root.querySelectorAll('[data-space-chapter]').forEach((button,i)=>button.onclick=()=>{if(scrollDriven){document.dispatchEvent(new CustomEvent('arpg:space-seek',{detail:(starts[i]+.05)/duration}));return;}hasStarted=true;time=reduced.matches?[10.9,17.9,26][i]:starts[i];playing=!reduced.matches;start();});
   new MutationObserver(translate).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   new ResizeObserver(update).observe(root);
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible&&!hasStarted&&!reduced.matches&&!scrollDriven){hasStarted=true;playing=true;}start();},{threshold:.35}).observe(root.querySelector('.space-player'));

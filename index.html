@@ -16,10 +16,10 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=capsule-1">
-  <script src="controls.js?v=capsule-1" defer></script>
-  <script src="app.js?v=capsule-1" defer></script>
-  <script src="manifold.js?v=capsule-1" defer></script>
+  <link rel="stylesheet" href="editorial.css?v=story-pair-2">
+  <script src="controls.js?v=story-pair-2" defer></script>
+  <script src="app.js?v=story-pair-2" defer></script>
+  <script src="manifold.js?v=story-pair-2" defer></script>
   <script src="motion.js?v=language-scroll-fix-2" defer></script>
 </head>
 <body>
@@ -50,7 +50,7 @@
       <span id="action-space" class="anchor-target"></span><div class="section-intro"><div class="section-label" data-space="eyebrow">VISUAL INTUITION · 26 SECONDS</div>
       <div class="section-heading"><h2 id="space-title" data-space="title">Change the space.<br>Change the learning problem.</h2><p data-space="intro">The same actions can be easier to model in a learned representation. Watch the data change coordinates before the generator learns their structure.</p></div></div>
       <div class="space-scroll-story"><div class="space-studio">
-        <div class="space-switch" role="group" aria-label="Animation chapters"><span class="space-switch-thumb" aria-hidden="true"></span><button type="button" data-space-chapter="0"></button><button type="button" data-space-chapter="1"></button><button type="button" data-space-chapter="2"></button><button type="button" data-space-chapter="3"></button></div>
+        <div class="space-switch" role="group" aria-label="Animation chapters"><span class="space-switch-thumb" aria-hidden="true"></span><button type="button" data-space-chapter="0"></button><button type="button" data-space-chapter="1"></button><button type="button" data-space-chapter="2"></button></div>
         <div class="space-player">
           <p id="space-caption-title" class="space-statement" aria-live="polite"></p>
           <canvas id="space-story" role="img" aria-label="Conceptual action sequence, encoder, representation and decoder"></canvas>
@@ -117,9 +117,8 @@
       <div class="ablation-layout"><div><h3 data-i18n="representation">Action representation</h3><div id="ablation-chart"></div><p class="caption" data-i18n="ablationCaption">Table 2(a) · DexJoCo overall success (%)</p></div><details class="auxiliary-details"><summary data-i18n="auxiliaryDetails">Additional ablations</summary><div class="small-tables"><div><h3 data-i18n="aggregation">Multi-layer aggregation</h3><table><thead><tr><th data-i18n="layers">Final encoder layers</th><th data-i18n="success">Success (%)</th></tr></thead><tbody><tr><td>1</td><td>52.5</td></tr><tr class="best"><td>2</td><td>57.8</td></tr><tr><td>3</td><td>51.6</td></tr></tbody></table></div><div><h3 data-i18n="auxiliary">Auxiliary generation objectives</h3><table><thead><tr><th data-i18n="objective">Objective</th><th data-i18n="success">Success (%)</th></tr></thead><tbody><tr><td data-i18n="withoutRepa">Without REPA alignment</td><td>54.85</td></tr><tr><td data-i18n="withoutDecoder">Without action decoding loss</td><td>56.0</td></tr><tr class="best"><td data-i18n="fullObjective">Full objective</td><td>57.8</td></tr></tbody></table></div></div></details></div>
     </section>
 
-    <section id="outlook" class="outlook"><div class="wrap chapter"><div class="section-intro"><div class="section-label"><span data-i18n="outlookLabel">LIMITATIONS & OUTLOOK</span></div><div class="section-heading"><h2 data-i18n="outlookTitle">An independent axis<br>for robot learning.</h2></div></div><div class="outlook-copy"><div><p data-i18n="outlookBody">Action representation pretraining offers a reusable component for complex dexterous control, with improvements demonstrated in simulation and on three physical manipulation tasks.</p><p data-i18n="outlookLimits">The current study focuses on dexterous hands. Transfer to other embodiments, semantic understanding, and open-world generalization remain to be evaluated systematically. Scaling results apply to the tested data pool and model configurations.</p><p class="outlook-question" data-i18n="outlookQuestion">What makes an action representation useful for generation—not just better aligned?</p></div></div></div></section>
 
-    <section id="resources" class="chapter wrap resources"><div class="section-intro"><div class="section-label"><span data-i18n="resourcesLabel">RESOURCES</span></div><div class="section-heading"><h2 data-i18n="resourcesTitle">Explore the research.</h2><p data-i18n="resourcesIntro">Read the manuscript for complete methods, implementation details, evaluation protocols, and additional analyses.</p></div></div><p class="paper-language"><a href="assets/arpg-paper-zh.pdf" target="_blank" rel="noopener">中文论文 PDF ↗</a></p><details><summary data-i18n="abstract">Read the abstract</summary><p id="abstract-text"></p></details></section>
+    <section id="resources" class="chapter wrap resources"><div class="section-intro"><div class="section-label"><span data-i18n="resourcesLabel">RESOURCES</span></div><div class="section-heading"><h2 data-i18n="resourcesTitle">Explore the research.</h2><p data-i18n="resourcesIntro">Read the manuscript for complete methods, implementation details, evaluation protocols, and additional analyses.</p></div></div><details><summary data-i18n="abstract">Read the abstract</summary><p id="abstract-text"></p></details></section>
   </main>
   <footer class="wrap"><a class="brand" href="#">ARPG<span>REPRESENTATION → GENERATION</span></a><a href="#" data-i18n="backTop">Back to top ↑</a></footer>
   <dialog id="image-dialog"><button id="close-dialog" aria-label="Close image / 关闭图片">×</button><img id="dialog-image" alt=""></dialog>
