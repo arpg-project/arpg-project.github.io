@@ -35,7 +35,7 @@ approximately 50.3 MiB. Video is encoded from the original 1080p edits with
 x264 CRF 17 / slow; source audio is copied without re-encoding. Native controls, inline mobile playback, matching 1080p 16:9 frame
 posters, and `preload="none"` keep playback user initiated.
 
-Animation pacing: 0–5 s maps an illustrative action chunk to one point; 5–11 s encodes it; 11–18 s shows observation-conditioned generation; 18–26 s decodes a generated representation into an illustrative action chunk. The final 23–26 s retains the synchronized moving-ball comparison. These are conceptual gripper motions, not measured trajectories. One short caption per scene; scientific caveats remain in a disclosure.
+Animation pacing: 0–5 s rearranges representation points while surfaces remain flat; 5–18 s fits the surfaces to the fixed points; 18–26 s retains the final comparison, including the synchronized moving-ball illustration during 23–26 s. These are conceptual visualizations, not measured trajectories or a training simulation.
 
 ## Page presentation
 
@@ -76,4 +76,4 @@ The inline player uses `*-web.mp4`: 1080p, 30 fps, H.264 CRF 23, 3 Mbps max rate
 
 ### Intuition playback
 
-The intuition player stays in normal document flow, with no pinned panel or extra scroll distance. It starts automatically when at least 35% visible, pauses its animation clock offscreen or in a hidden tab, and resumes on return. Explicit pause and timeline scrubbing remain paused until the user presses play. Chapter buttons seek and play without moving the page. Reduced-motion users retain manual playback. Method diagram scroll stages remain independent. During Stage 1 (0–11 seconds), only the representation points move while both surfaces remain flat. During Stage 2 (11–18 seconds), the points stay fixed and the surfaces fit progressively.
+The intuition player stays in normal document flow, with no pinned panel or extra scroll distance. It starts automatically when at least 35% visible, pauses its animation clock offscreen or in a hidden tab, and resumes on return. Explicit pause and timeline scrubbing remain paused until the user presses play. Chapter buttons seek and play without moving the page. Reduced-motion users retain manual playback. Method diagram scroll stages remain independent. During Stage 1 (0–5 seconds), only the representation points move while both surfaces remain flat. During Stage 2 (5–18 seconds), the points stay fixed and the surfaces fit progressively.
