@@ -208,3 +208,7 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
 .infer-icon span{font-size:11px;color:#9b94a7;letter-spacing:.08em}
 .inference-flow strong{display:block;font-size:15px;font-weight:500;line-height:1.6;color:var(--ink)}
 @media(max-width:600px){.inference-flow{grid-template-columns:1fr;gap:24px}.inference-flow li{display:flex;align-items:center;gap:20px;padding:18px}.infer-icon{margin:0;gap:12px}.infer-icon svg{width:30px;height:30px}.inference-flow li+li::before{content:'↓';left:50%;top:-24px;transform:translateX(-50%)}.motivation-abstract{margin-bottom:30px}}
+
+.space-evidence .motivation-abstract{margin:18px 0 0;max-width:none;border:0;border-top:1px solid var(--line)}
+.space-evidence .motivation-abstract summary{padding:18px 0 6px;font-size:13px}
+.space-evidence .motivation-abstract>p{padding:16px 0 0}
