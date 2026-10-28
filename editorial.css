@@ -210,3 +210,9 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
 .space-caption-note[hidden]{display:none}
 
 .scaling-reference-note>span{border-top-width:1px;border-top-color:#b4a7c0}
+
+/* Encoder capacity and optimization share one explanation, with separate axes. */
+.scaling-chart-pair{display:grid;gap:24px;margin-top:24px}
+.scaling-mini-chart{margin:0;min-width:0}
+.scaling-mini-chart>figcaption{font-size:14px;font-weight:500;text-align:center;color:var(--ink);margin-bottom:8px}
+.scaling-mini-chart svg{display:block;width:100%;height:auto}

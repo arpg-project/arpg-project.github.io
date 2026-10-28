@@ -16,9 +16,9 @@
     }
   </script>
   <link rel="stylesheet" href="style.css?v=resources-4">
-  <link rel="stylesheet" href="editorial.css?v=scaling-notes-1">
+  <link rel="stylesheet" href="editorial.css?v=combined-scaling-1">
   <script src="controls.js?v=motivation-refine-1" defer></script>
-  <script src="app.js?v=scaling-notes-1" defer></script>
+  <script src="app.js?v=combined-scaling-1" defer></script>
   <script src="manifold.js?v=stage-notes-1" defer></script>
   <script src="motion.js?v=visible-playback-1" defer></script>
 </head>
@@ -108,7 +108,7 @@
 
     <section id="scaling" class="chapter wrap">
       <div class="section-intro"><div class="section-label"><span data-i18n="scalingLabel">SCALING PRETRAINING</span></div><div class="section-heading"><h2 data-i18n="scalingTitle">More diverse human actions.<br>Better action generation.</h2><p data-i18n="scalingIntro">Can a better pretrained action space improve manipulation without more robot demonstrations or a larger generative backbone? We vary three pretraining dimensions separately.</p></div></div>
-      <div class="scaling-layout"><div><div class="segmented scaling-tabs" role="group" aria-label="Pretraining dimension"><button data-scale="data" aria-pressed="true" data-i18n="data">Data</button><button data-scale="capacity" aria-pressed="false" data-i18n="capacity">Encoder</button><button data-scale="compute" aria-pressed="false" data-i18n="compute">Compute</button></div><div id="scaling-chart"></div></div><div class="scaling-insight" id="scaling-insight"></div></div>
+      <div class="scaling-layout"><div><div class="segmented scaling-tabs" role="group" aria-label="Pretraining dimension"><button data-scale="data" aria-pressed="true" data-i18n="data">Data</button><button data-scale="model" aria-pressed="false" data-i18n="modelTraining">Model &amp; training</button></div><div id="scaling-chart"></div></div><div class="scaling-insight" id="scaling-insight"></div></div>
     </section>
 
     <section id="ablations" class="chapter wrap ablations">
