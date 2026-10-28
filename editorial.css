@@ -208,3 +208,5 @@ html.intro-motion .section-intro.intro-revealed>p{opacity:1;transform:none}
 /* Stage explanation: a prominent title followed by quieter scientific context. */
 .space-caption-note{max-width:680px;margin:0 auto 20px;padding-inline:12px;font-size:clamp(12px,1.35vw,14px);line-height:1.7;text-align:center;color:#74747d}
 .space-caption-note[hidden]{display:none}
+
+.scaling-reference-note>span{border-top-width:1px;border-top-color:#b4a7c0}
